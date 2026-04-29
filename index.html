@@ -385,10 +385,10 @@
         /* ===== FOOTER ===== */
         .footer {
             background: #1a1a1a;
-            padding: 3rem 0 1.5rem;
-            color: #ccc;
+            color: #fff;
+            padding: 3rem 0 2rem;
+            text-align: center;
         }
-        .footer .container { text-align: center; }
         .footer-logo {
             display: flex;
             align-items: center;
@@ -396,31 +396,24 @@
             gap: 0.75rem;
             margin-bottom: 1.5rem;
         }
-        .footer-logo img { height: 50px; width: auto; }
+        .footer-logo img { height: 40px; width: auto; }
         .footer-logo span {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            color: #fff;
         }
-        .footer-nav { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-nav { margin-bottom: 1.5rem; }
         .footer-nav a {
-            font-family: 'Oswald', sans-serif;
-            font-size: 0.95rem;
             color: #4FC3F7;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            margin: 0 1rem;
             transition: color 0.3s;
         }
         .footer-nav a:hover { color: #fff; }
-        .footer-bottom {
-            border-top: 1px solid #333;
-            padding-top: 1.5rem;
-            font-size: 0.85rem;
-            color: #777;
-        }
+        .footer-bottom { border-top: 1px solid #333; padding-top: 1.5rem; }
+        .footer-bottom p { font-size: 0.9rem; color: #888; }
         .footer-bottom a { color: #4FC3F7; }
-        .footer-bottom a:hover { color: #fff; }
 
         /* ===== ANIMATIONS ===== */
         @keyframes fadeInUp {
@@ -429,7 +422,7 @@
         }
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(20px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
         .reveal.visible {
@@ -437,37 +430,31 @@
             transform: translateY(0);
         }
 
-        /* ===== MOBILE ===== */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .top-bar .container { justify-content: center; text-align: center; }
-            .nav-links { display: none; }
-            .nav-links.active {
-                display: flex;
-                flex-direction: column;
+            .nav-links {
+                display: none;
                 position: absolute;
                 top: 100%;
                 left: 0;
                 right: 0;
                 background: #fff;
+                flex-direction: column;
                 padding: 1.5rem;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
                 gap: 1rem;
             }
+            .nav-links.active { display: flex; }
             .mobile-toggle { display: flex; }
-            .hero { min-height: 60vh; }
             .hero h1 { font-size: 2.5rem; }
-            .hero-logo { width: 150px; }
-            .welcome .container { grid-template-columns: 1fr; }
-            .info-bar .container { grid-template-columns: 1fr; gap: 1.5rem; }
+            .welcome .container,
             .contact-section .container { grid-template-columns: 1fr; }
+            .info-bar .container { grid-template-columns: 1fr; gap: 1.5rem; }
             .products-grid { grid-template-columns: 1fr; }
-            .nav-logo img { height: 40px; }
-            .nav-logo span { font-size: 1.2rem; }
         }
     </style>
 </head>
 <body>
-
     <!-- TOP BAR -->
     <div class="top-bar">
         <div class="container">
@@ -477,7 +464,7 @@
             </div>
             <a href="https://www.facebook.com/BEARCAVEWADSWORTH" target="_blank" class="social-link">
                 <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                <span>@BEARCAVEWADSWORTH</span>
+                @BEARCAVEWADSWORTH
             </a>
         </div>
     </div>
@@ -485,17 +472,17 @@
     <!-- NAVIGATION -->
     <nav class="navbar" id="navbar">
         <div class="container">
-            <a href="#" class="nav-logo">
-                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/mp7xzWeDhWewctF3kdZR9p/bear-cave-logo-ksoLEJCGbBBzAvhbnMPtmy.webp" alt="Bear Cave Logo">
+            <a href="#home" class="nav-logo">
+                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/mp7xzWeDhWewctF3kdZR9p/bear-cave-logo-ksoLEJCGbBBzAvhbnMPtmy.webp" alt="Bear Cave">
                 <span>BEAR CAVE</span>
             </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#products">Products</a></li>
-                <li><a href="#team">Join Our Team</a></li>
-                <li><a href="#contact">Get In Touch</a></li>
-            </ul>
-            <div class="mobile-toggle" id="mobileToggle" onclick="toggleNav()">
+            <div class="nav-links" id="navLinks">
+                <a href="#home">Home</a>
+                <a href="#products">Products</a>
+                <a href="#team">Join Our Team</a>
+                <a href="#contact">Get In Touch</a>
+            </div>
+            <div class="mobile-toggle" onclick="toggleNav()">
                 <span></span>
                 <span></span>
                 <span></span>
