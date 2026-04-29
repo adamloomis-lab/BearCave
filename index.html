@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bear Cave | Wadsworth's Best Drive-Thru for Beer, Wine & Snacks</title>
+    <meta name="description" content="Bear Cave is Wadsworth's best drive-thru for the coldest beer in town, wine, seltzers, soda, snacks, candy, lottery tickets, and more. Located at 474 College St, Wadsworth, OH.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/mp7xzWeDhWewctF3kdZR9p/bear-cave-logo-ksoLEJCGbBBzAvhbnMPtmy.webp">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 17px;
+            line-height: 1.6;
+            color: #2D2D2D;
+            background: #fff;
+            overflow-x: hidden;
+        }
+        img { max-width: 100%; height: auto; display: block; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3, h4 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        /* ===== UTILITY ===== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            background: #1a1a1a;
+            padding: 0.6rem 0;
+            font-size: 0.9rem;
+        }
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .top-bar a { color: #fff; transition: color 0.3s; }
+        .top-bar a:hover { color: #4FC3F7; }
+        .top-bar .phone { color: #E53935; font-weight: 700; font-size: 1.1rem; }
+        .top-bar .address { color: #ccc; }
+        .top-bar .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #4FC3F7;
+        }
+        .top-bar .social-link svg { width: 20px; height: 20px; fill: currentColor; }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            background: #fff;
+            border-bottom: 3px solid #E3F2FD;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: box-shadow 0.3s;
+        }
+        .navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.8rem;
+            padding-bottom: 0.8rem;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 0.75rem; }
+        .nav-logo img { height: 50px; width: auto; }
+        .nav-logo span {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: 0.05em;
+        }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4A90B8;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #E53935;
+            transition: width 0.3s;
+        }
+        .nav-links a:hover { color: #E53935; }
+        .nav-links a:hover::after { width: 100%; }
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .mobile-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #1a1a1a;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: url('https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/mp7xzWeDhWewctF3kdZR9p/hero-frost-bg-gfkQHNgusiKp4cqWmCMbS9.webp') center/cover no-repeat;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(1px);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 3rem 1.5rem;
+            animation: fadeInUp 1s ease-out;
+        }
+        .hero-logo { width: 200px; height: auto; margin: 0 auto 1.5rem; }
+        .hero h1 {
+            font-size: 3.5rem;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.8);
+        }
+        .hero .tagline {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: #E53935;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .hero .cta-btn {
+            display: inline-block;
+            background: #E53935;
+            color: #fff;
+            padding: 0.9rem 2.5rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .hero .cta-btn:hover { background: #c62828; transform: translateY(-2px); }
+
+        /* ===== WELCOME SECTION ===== */
+        .welcome {
+            padding: 5rem 0;
+            background: #fff;
+        }
+        .welcome .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .welcome-text h2 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+        .welcome-text .highlight {
+            color: #E53935;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        .welcome-text p {
+            font-size: 1.1rem;
+            color: #444;
+            line-height: 1.8;
+        }
+        .welcome-image {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        .welcome-image img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ===== INFO BAR ===== */
+        .info-bar {
+            background: linear-gradient(135deg, #4A90B8, #2196F3);
+            padding: 2.5rem 0;
+        }
+        .info-bar .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+        }
+        .info-item svg { width: 36px; height: 36px; fill: #fff; opacity: 0.9; }
+        .info-item span { font-size: 1rem; font-weight: 500; }
+        .info-item a { color: #fff; font-weight: 600; font-size: 1.1rem; }
+        .info-item a:hover { text-decoration: underline; }
+
+        /* ===== PRODUCTS SECTION ===== */
+        .products {
+            padding: 5rem 0;
+            background: #F0F4F7;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 0.75rem;
+        }
+        .section-header p {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .product-card {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+        .product-card img { width: 100%; height: 100%; object-fit: cover; }
+        .product-card .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+        .product-card .overlay span {
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* ===== SOCIAL SECTION ===== */
+        .social {
+            padding: 4rem 0;
+            background: #fff;
+            text-align: center;
+        }
+        .social h2 {
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+        .social .handle {
+            color: #4A90B8;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        .social .fb-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #1877F2;
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .social .fb-btn:hover { background: #1565C0; transform: translateY(-2px); }
+        .social .fb-btn svg { width: 22px; height: 22px; fill: #fff; }
+
+        /* ===== HOURS & MAP ===== */
+        .contact-section {
+            padding: 5rem 0;
+            background: #F0F4F7;
+        }
+        .contact-section .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .map-container {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            height: 350px;
+        }
+        .map-container iframe { width: 100%; height: 100%; border: 0; }
+        .hours-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .hours-card h2 {
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .hours-table { width: 100%; }
+        .hours-table tr { border-bottom: 1px solid #eee; }
+        .hours-table tr:last-child { border-bottom: none; }
+        .hours-table td {
+            padding: 0.75rem 0;
+            font-size: 1.05rem;
+        }
+        .hours-table td:first-child { font-weight: 600; color: #333; }
+        .hours-table td:last-child { text-align: right; color: #555; }
+        .hours-phone {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #E3F2FD;
+        }
+        .hours-phone a {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: #E53935;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+        .hours-phone a:hover { color: #c62828; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #1a1a1a;
+            padding: 3rem 0 1.5rem;
+            color: #ccc;
+        }
+        .footer .container { text-align: center; }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .footer-logo img { height: 50px; width: auto; }
+        .footer-logo span {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .footer-nav { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-nav a {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.95rem;
+            color: #4FC3F7;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.3s;
+        }
+        .footer-nav a:hover { color: #fff; }
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #777;
+        }
+        .footer-bottom a { color: #4FC3F7; }
+        .footer-bottom a:hover { color: #fff; }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+            .top-bar .container { justify-content: center; text-align: center; }
+            .nav-links { display: none; }
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #fff;
+                padding: 1.5rem;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                gap: 1rem;
+            }
+            .mobile-toggle { display: flex; }
+            .hero { min-height: 60vh; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero-logo { width: 150px; }
+            .welcome .container { grid-template-columns: 1fr; }
+            .info-bar .container { grid-template-columns: 1fr; gap: 1.5rem; }
+            .contact-section .container { grid-template-columns: 1fr; }
+            .products-grid { grid-template-columns: 1fr; }
+            .nav-logo img { height: 40px; }
+            .nav-logo span { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="container">
+            <div>
+                <a href="tel:3303343887" class="phone">(330) 334-3887</a>
+                <span class="address"> &bull; 474 College St, Wadsworth, OH 44281</span>
+            </div>
+            <a href="https://www.facebook.com/BEARCAVEWADSWORTH" target="_blank" class="social-link">
+                <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                <span>@BEARCAVEWADSWORTH</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="nav-logo">
+                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/mp7xzWeDhWewctF3kdZR9p/bear-cave-logo-ksoLEJCGbBBzAvhbnMPtmy.webp" alt="Bear Cave Logo">
+                <span>BEAR CAVE</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#team">Join Our Team</a></li>
+                <li><a href="#contact">Get In Touch</a></li>
+            </ul>
+            <div class="mobile-toggle" id="mobileToggle" onclick="toggleNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/mp7xzWeDhWewctF3kdZR9p/bear-cave-logo-a8Ss4Jp3wN3oQZzTgANVDm.png" alt="Bear Cave" class="hero-logo">
+            <h1>BEAR CAVE</h1>
+            <span class="tagline">Wadsworth's Best Drive-Thru!</span>
+            <br><br>
+            <a href="#products" class="cta-btn">See What's In The Cave</a>
+        </div>
+    </section>
+
+    <!-- WELCOME -->
+    <section class="welcome reveal">
+        <div class="container">
+            <div class="welcome-text">
+                <h2>Welcome to the Bear Cave</h2>
+                <span class="highlight">Wadsworth's Best Drive-Thru!</span>
+                <p>Swing by and grab what you need without leaving your car. We carry the coldest beer in town, a huge selection of wine, seltzers, soda, snacks, candy, lottery tickets, tobacco products, and much more. Locally owned and operated, we take pride in serving the Wadsworth community with fast, friendly service every day of the week.</p>
+            </div>
+            <div class="welcome-image">
+                <img src="/manus-storage/drive-thru-building_5bc514d8.jpg" alt="Bear Cave Drive-Thru in Wadsworth, OH">
+            </div>
+        </div>
+    </section>
+
+    <!-- INFO BAR -->
+    <div class="info-bar reveal">
+        <div class="container">
+            <div class="info-item">
+                <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                <span>474 College St, Wadsworth, OH 44281</span>
+            </div>
+            <div class="info-item">
+                <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                <a href="tel:3303343887">(330) 334-3887</a>
+            </div>
+            <div class="info-item">
+                <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                <a href="https://www.facebook.com/BEARCAVEWADSWORTH" target="_blank">Follow Us on Facebook</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Our Products</h2>
+                <p>At Bear Cave, we have everything you need to grab and go. The coldest beer in town, a huge selection of wine, seltzers, soda, snacks, candy, lottery tickets, and tobacco products... and much more!</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card reveal">
+                    <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/mp7xzWeDhWewctF3kdZR9p/products-section-bg-JM5b4VmQ9UDWnatziY95A2.webp" alt="Craft Beer Selection">
+                    <div class="overlay"><span>Coldest Beer in Town</span></div>
+                </div>
+                <div class="product-card reveal">
+                    <img src="/manus-storage/products-exterior_2cb8dae2.jpg" alt="Bear Cave Products">
+                    <div class="overlay"><span>Wine & Seltzers</span></div>
+                </div>
+                <div class="product-card reveal">
+                    <img src="/manus-storage/beer-contact_0397f9fd.jpg" alt="Beer and Beverages">
+                    <div class="overlay"><span>Snacks & More</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JOIN OUR TEAM -->
+    <section class="welcome" id="team" style="background: #fff;">
+        <div class="container">
+            <div class="welcome-text reveal">
+                <h2>Join Our Team</h2>
+                <span class="highlight">We're Hiring!</span>
+                <p>Bear Cave is always looking for friendly, reliable team members to join our crew. If you enjoy working with people and want a fun, fast-paced environment, we'd love to hear from you. Stop by the store to pick up an application or reach out through our Facebook page.</p>
+                <br>
+                <a href="https://www.facebook.com/BEARCAVEWADSWORTH" target="_blank" style="display:inline-block; background:#4A90B8; color:#fff; padding:0.8rem 2rem; font-family:'Oswald',sans-serif; font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; border-radius:4px; transition:background 0.3s, transform 0.3s;">Apply on Facebook</a>
+            </div>
+            <div class="welcome-image reveal">
+                <img src="/manus-storage/bear-mascot_ac4ad3d1.png" alt="Bear Cave Mascot" style="background:#E3F2FD; padding: 2rem;">
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL -->
+    <section class="social reveal">
+        <h2>Follow Us on Social</h2>
+        <span class="handle">@BEARCAVEWADSWORTH</span>
+        <a href="https://www.facebook.com/BEARCAVEWADSWORTH" target="_blank" class="fb-btn">
+            <svg viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Follow Us on Facebook
+        </a>
+    </section>
+
+    <!-- CONTACT / HOURS / MAP -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="map-container reveal">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3009.5!2d-81.7298!3d41.0265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8830e5a1a1a1a1a1%3A0x1234567890abcdef!2s474+College+St%2C+Wadsworth%2C+OH+44281!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="hours-card reveal">
+                <h2>Hours</h2>
+                <table class="hours-table">
+                    <tr><td>Mon - Thu</td><td>8:30 am - 9:00 pm</td></tr>
+                    <tr><td>Friday</td><td>8:30 am - 10:00 pm</td></tr>
+                    <tr><td>Saturday</td><td>9:00 am - 10:00 pm</td></tr>
+                    <tr><td>Sunday</td><td>10:00 am - 9:00 pm</td></tr>
+                </table>
+                <div class="hours-phone">
+                    <a href="tel:3303343887">(330) 334-3887</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/mp7xzWeDhWewctF3kdZR9p/bear-cave-logo-ksoLEJCGbBBzAvhbnMPtmy.webp" alt="Bear Cave">
+                <span>BEAR CAVE</span>
+            </div>
+            <nav class="footer-nav">
+                <a href="#home">Home</a>
+                <a href="#products">Products</a>
+                <a href="#team">Join Our Team</a>
+                <a href="#contact">Get In Touch</a>
+            </nav>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bear Cave. All rights reserved. | Site by <a href="https://adamloomis.online" target="_blank">adamloomis.online</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile nav toggle
+        function toggleNav() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Sticky nav shadow on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll reveal animation
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => observer.observe(el));
+
+        // Close mobile nav on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
