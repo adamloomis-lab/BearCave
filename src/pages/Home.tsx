@@ -3,6 +3,7 @@ import { ArrowRight, Phone, Navigation as NavArrow } from "lucide-react";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
 import Reviews from "@/components/Reviews";
+import Snow from "@/components/Snow";
 import { BUSINESS, PRODUCTS, IMAGES, CATERING } from "@/lib/constants";
 
 const tel = `tel:${BUSINESS.phoneDigits}`;
@@ -32,8 +33,9 @@ export default function Home() {
   return (
     <Layout>
       {/* ── Marquee hero ─────────────────────────────────────────── */}
-      <section className="hero-frost">
-        <div className="container-x flex min-h-[62vh] flex-col justify-center py-16 md:py-24">
+      <section className="hero-frost relative">
+        <Snow />
+        <div className="container-x relative flex min-h-[62vh] flex-col justify-center py-16 md:py-24">
           <AnimatedSection>
             <p className="font-semibold uppercase tracking-[0.2em] text-brand-deep">
               {BUSINESS.tagline}
