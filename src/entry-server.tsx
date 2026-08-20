@@ -6,3 +6,6 @@ export { getPageMeta, ALL_ROUTES, SITE_URL } from "./lib/seo";
 export function render(path: string): string {
   return renderToString(<App ssrPath={path} />);
 }
+
+// Narration data for scripts/narrate.mjs (audio pre-generation).
+export { narration } from './data/narration'

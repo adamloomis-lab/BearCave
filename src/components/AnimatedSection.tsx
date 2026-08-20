@@ -16,11 +16,13 @@ export default function AnimatedSection({
   direction = "up",
   delay = 0,
   className,
+  ...rest
 }: {
   children: ReactNode;
   direction?: Direction;
   delay?: number;
   className?: string;
+  [key: `data-${string}`]: string;
 }) {
   const reduceMotion = useReducedMotion();
   return (
@@ -30,6 +32,7 @@ export default function AnimatedSection({
       viewport={{ once: true, margin: "-80px" }}
       transition={reduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeOut", delay }}
       className={className}
+      {...rest}
     >
       {children}
     </motion.div>

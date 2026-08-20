@@ -60,7 +60,7 @@ export default function Catering() {
       <section className="depth-frost">
         <div className="container-x grid gap-12 py-16 md:py-24 lg:grid-cols-5">
           {/* Pitch */}
-          <AnimatedSection direction="left" className="lg:col-span-2">
+          <AnimatedSection direction="left" className="lg:col-span-2" data-narrate="catering-how">
             <h2 className="display text-3xl text-foreground">How it works</h2>
             <span className="mt-4 block rule-ice" />
             <p className="mt-6 leading-relaxed text-muted-foreground">
@@ -89,7 +89,7 @@ export default function Catering() {
           </AnimatedSection>
 
           {/* Form */}
-          <AnimatedSection direction="right" className="lg:col-span-3">
+          <AnimatedSection direction="right" className="lg:col-span-3" data-narrate="catering-form">
             <div className="border border-border bg-white p-7 shadow-sm md:p-10">
               {status === "success" ? (
                 <div

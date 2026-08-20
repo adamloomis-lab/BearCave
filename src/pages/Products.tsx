@@ -78,7 +78,7 @@ export default function Products() {
       />
 
       {/* Category grid */}
-      <section className="depth-frost">
+      <section className="depth-frost" data-narrate="products-grid">
         <div className="container-x py-16 md:py-24">
           <div className="grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
             {PRODUCTS.map((p, i) => (
@@ -102,7 +102,7 @@ export default function Products() {
       </section>
 
       {/* Gallery */}
-      <section className="depth-ice">
+      <section className="depth-ice" data-narrate="products-gallery">
         <div className="container-x py-16 md:py-24">
           <AnimatedSection className="max-w-2xl">
             <h2 className="display text-3xl md:text-5xl text-foreground">Inside the coolers</h2>
