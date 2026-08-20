@@ -1,0 +1,53 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  # Underscore-prefixed files (e.g. _ratelimit.mts) are shared modules, not endpoints.
+  included_files = ["!netlify/functions/_*"]
+
+# Live Google reviews endpoint (Places API New) -> src fetches this on mount
+# and swaps the SSR-baked reviews for fresh data.
+[[redirects]]
+  from = "/api/reviews"
+  to = "/.netlify/functions/reviews"
+  status = 200
+
+# Prerendered per-route HTML is served directly (Netlify serves existing files
+# before applying this fallback). The fallback only catches client-side routes
+# that have no prerendered file.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# Security response headers. Fixes securityheaders.com D grade to A.
+# CSP is scoped to origins this site actually uses at runtime:
+#   - fonts: Google Fonts CSS + font files
+#   - forms: Netlify Forms POSTs to '/' (form-action self covers it)
+#   - api:   /api/reviews (same origin, connect-src self)
+#   - imgs:  allow https broadly so Google review author photos work if we
+#            ever render them (currently we show initials, but future-proof)
+#   - media: same-origin (hero project video)
+# Inline styles are pervasive (Tailwind + style={{}}) so style-src needs
+# 'unsafe-inline'. That caps the grade at A, which is the correct tradeoff.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "accelerometer=(), autoplay=(self), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; script-src 'self' 'unsafe-inline' https://simplyvisible.online https://www.simplyvisible.online https://adamloomismarketing.com https://umami-production-8669.up.railway.app https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: data:; worker-src 'self' blob:; connect-src 'self' https://simplyvisible.online https://www.simplyvisible.online https://adamloomismarketing.com https://umami-production-8669.up.railway.app https://*.clarity.ms; frame-src 'self'; form-action 'self'"

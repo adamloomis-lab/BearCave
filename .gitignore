@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+dist-server
+.DS_Store
+*.local
+.netlify
+.vite
+*.tsbuildinfo
+_private-source
