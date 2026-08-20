@@ -32,7 +32,7 @@ function headBlock(meta) {
   const tags = [
     `<link rel="canonical" href="${esc(meta.canonical)}" />`,
     `<meta property="og:type" content="website" />`,
-    `<meta property="og:site_name" content="Kelley Concrete and Construction" />`,
+    `<meta property="og:site_name" content="Bear Cave Drive Thru" />`,
     `<meta property="og:title" content="${esc(meta.title)}" />`,
     `<meta property="og:description" content="${esc(meta.description)}" />`,
     `<meta property="og:url" content="${esc(meta.canonical)}" />`,

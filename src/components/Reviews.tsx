@@ -65,13 +65,13 @@ function GoogleG({ className = "" }: { className?: string }) {
 
 function StarRow({ rating }: { rating: number }) {
   return (
-    <div className="flex items-center gap-0.5 text-brand" aria-label={`${rating} out of 5 stars`}>
+    <div className="flex items-center gap-0.5 text-accent" aria-label={`${rating} out of 5 stars`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
           size={16}
           fill={i < Math.round(rating) ? "currentColor" : "none"}
-          className={i < Math.round(rating) ? "" : "text-brand/30"}
+          className={i < Math.round(rating) ? "" : "text-accent/30"}
         />
       ))}
     </div>
@@ -109,16 +109,15 @@ export default function Reviews() {
   }, []);
 
   return (
-    <section className="depth-white">
+    <section className="depth-ice">
       <div className="container-x py-20 md:py-28">
         <AnimatedSection className="max-w-2xl mx-auto text-center">
-          <p className="eyebrow">Reviews</p>
-          <h2 className="display text-3xl md:text-5xl mt-3 text-steel">What Our Clients Say</h2>
-          <span className="mt-5 block rule-red mx-auto" />
+          <h2 className="display text-3xl md:text-5xl text-foreground">The Neighbors Have Spoken</h2>
+          <span className="mt-5 block rule-ice mx-auto" />
 
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
             <StarRow rating={rating} />
-            <span className="text-steel font-display text-lg">
+            <span className="text-foreground font-display text-lg">
               {rating.toFixed(1)}
             </span>
             <span className="text-muted-foreground text-sm">
@@ -130,23 +129,23 @@ export default function Reviews() {
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5">
           {reviews.map((r, i) => (
             <AnimatedSection key={`${r.author}-${r.publishTime || i}`} delay={(i % 2) * 0.06}>
-              <figure className="h-full bg-white border border-border p-6 rounded-lg shadow-sm flex flex-col">
+              <figure className="h-full bg-white border border-border p-6 shadow-sm flex flex-col">
                 <div className="flex items-center justify-between">
                   <StarRow rating={r.rating} />
                   <GoogleG className="size-4" />
                 </div>
-                <blockquote className="mt-4 text-steel leading-relaxed text-sm flex-1">
+                <blockquote className="mt-4 text-foreground leading-relaxed text-sm flex-1">
                   {r.text}
                 </blockquote>
                 <figcaption className="mt-5 flex items-center gap-3 pt-4 border-t border-border/70">
                   <span
                     aria-hidden="true"
-                    className="flex items-center justify-center size-9 rounded-full bg-brand text-white font-display text-sm tracking-wider"
+                    className="flex items-center justify-center size-9 bg-brand text-white font-display text-sm tracking-wider"
                   >
                     {initials(r.author)}
                   </span>
                   <div className="text-left">
-                    <span className="block font-display uppercase tracking-wide text-steel text-sm">
+                    <span className="block font-display uppercase tracking-wide text-foreground text-sm">
                       {r.author}
                     </span>
                     {r.timeAgo && (
@@ -164,19 +163,19 @@ export default function Reviews() {
             href={mapsUri}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-brand font-semibold uppercase tracking-wide hover:text-brand-dark transition-colors"
+            className="inline-flex items-center gap-2 text-brand-deep font-semibold uppercase tracking-wide hover:text-accent transition-colors"
           >
             <GoogleG className="size-4" />
             Read all reviews on Google
           </a>
           <span className="hidden sm:inline text-muted-foreground/60">·</span>
           <a
-            href="https://search.google.com/local/writereview?placeid=ChIJ9U293zrNMIgR-nF9OHKokwE"
+            href="https://search.google.com/local/writereview?placeid=ChIJrxEv0lfMMIgRtWOnSWlwmzQ"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-brand transition-colors"
+            className="text-muted-foreground hover:text-brand-deep transition-colors"
           >
-            Worked with us? Leave a review
+            Been through the lane? Leave a review
           </a>
         </div>
       </div>

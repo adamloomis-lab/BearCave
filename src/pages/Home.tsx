@@ -1,178 +1,239 @@
 import { Link } from "wouter";
-import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  Award,
-  Users,
-  ShieldCheck,
-  MapPin,
-  CheckCircle2,
-} from "lucide-react";
+import { ArrowRight, Phone, Navigation as NavArrow } from "lucide-react";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
-import CallToAction from "@/components/CallToAction";
-import HomeHero from "@/components/HomeHero";
 import Reviews from "@/components/Reviews";
-import ParallaxServicesShowcase from "@/components/ParallaxServicesShowcase";
-import { BUSINESS, CITIES, IMAGES, PROJECT_GALLERY } from "@/lib/constants";
+import { BUSINESS, PRODUCTS, IMAGES, CATERING } from "@/lib/constants";
 
-const STATS = [
-  { value: "20+", label: "Years of Experience" },
-  { value: "Res. + Comm.", label: "Residential & Commercial" },
-  { value: "Free", label: "No-Obligation Quotes" },
-  { value: "3", label: "Counties Served" },
+const tel = `tel:${BUSINESS.phoneDigits}`;
+const directions = `https://maps.google.com/?q=${encodeURIComponent(
+  `${BUSINESS.name}, ${BUSINESS.address.street}, ${BUSINESS.address.city}, ${BUSINESS.address.state} ${BUSINESS.address.zip}`,
+)}`;
+
+const LANE_STEPS = [
+  { n: "1", title: "Pull in", body: "The lane runs straight through the building. Drive on in." },
+  { n: "2", title: "Tell us what you need", body: "Beer, wine, pop, snacks, a scratch-off. We grab it." },
+  { n: "3", title: "Pay at the window", body: "Cash or card, IDs checked, quick as it sounds." },
+  { n: "4", title: "Back on the road", body: "Most trips take about a minute. Seats stay warm." },
 ];
 
-const WHY = [
-  { icon: Award, title: "20+ Years of Experience", text: "Two decades of dependable concrete work across Northeast Ohio, and a reputation built one project at a time." },
-  { icon: Users, title: "One Accountable Crew", text: "From demolition to the final finish, your project is handled by one experienced team, not a chain of subcontractors." },
-  { icon: ShieldCheck, title: "Quality That Lasts", text: "Proper base prep, reinforcement, and finishing built to stand up to Ohio's freeze-thaw winters." },
-  { icon: MapPin, title: "Local & Responsive", text: "Based in Wadsworth, serving Medina, Wayne, and western Summit counties. We answer the phone and show up." },
+const TICKER_ITEMS = [
+  "Cold Beer",
+  "Wine",
+  "Seltzers",
+  "Soda",
+  "Snacks",
+  "Candy",
+  "Ohio Lottery",
+  "Tobacco",
 ];
 
 export default function Home() {
   return (
     <Layout>
-      <HomeHero />
+      {/* ── Marquee hero ─────────────────────────────────────────── */}
+      <section className="hero-frost">
+        <div className="container-x flex min-h-[62vh] flex-col justify-center py-16 md:py-24">
+          <AnimatedSection>
+            <p className="font-semibold uppercase tracking-[0.2em] text-brand-deep">
+              {BUSINESS.tagline}
+            </p>
+            <h1 className="display mt-4 text-[13.5vw] leading-[0.92] text-foreground sm:text-7xl md:text-8xl lg:text-[7rem]">
+              The coldest
+              <br />
+              beer in town.
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              And you never have to leave your car to get it. Bear Cave is the drive-thru
+              at {BUSINESS.address.street} in Wadsworth: beer, wine, seltzers, pop, snacks,
+              candy, lottery, and tobacco, handed through your window.
+            </p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={directions}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center justify-center gap-2.5 overflow-hidden bg-accent px-8 py-4 font-semibold uppercase tracking-wide text-white transition-colors hover:bg-accent-deep"
+              >
+                <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-white/30 blur-md group-hover:[animation:sheen_0.9s_ease]" />
+                <NavArrow size={17} /> Point Me There
+              </a>
+              <Link
+                href="/products"
+                className="inline-flex items-center justify-center gap-2.5 border border-foreground/25 px-8 py-4 font-semibold uppercase tracking-wide text-foreground transition-colors hover:border-brand-deep hover:text-brand-deep"
+              >
+                See What's in the Cave <ArrowRight size={16} />
+              </Link>
+            </div>
+          </AnimatedSection>
+        </div>
+        <div aria-hidden="true" className="rule-lane" />
+      </section>
 
-      {/* Stats band */}
-      <section className="bg-brand text-white">
-        <div className="container-x grid grid-cols-2 lg:grid-cols-4 divide-x divide-white/15">
-          {STATS.map((s, i) => (
-            <motion.div
-              key={s.label}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="py-8 px-4 text-center"
-            >
-              <div className="display text-2xl md:text-3xl">{s.value}</div>
-              <div className="text-xs md:text-sm uppercase tracking-wider text-white/75 mt-1">{s.label}</div>
-            </motion.div>
+      {/* ── Product ticker ───────────────────────────────────────── */}
+      <div className="overflow-hidden border-b border-border bg-white py-3.5" aria-hidden="true">
+        <div className="ticker-track">
+          {[0, 1].map((half) => (
+            <div key={half} className="flex shrink-0">
+              {TICKER_ITEMS.map((item) => (
+                <span
+                  key={`${half}-${item}`}
+                  className="display mx-6 flex items-center gap-6 whitespace-nowrap text-xl text-foreground/70"
+                >
+                  {item}
+                  <span className="h-1.5 w-1.5 bg-accent" />
+                </span>
+              ))}
+            </div>
           ))}
         </div>
-      </section>
+      </div>
 
-      {/* Intro / value prop */}
-      <section className="depth-concrete">
-        <div className="container-x py-20 md:py-28 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      {/* ── The lane: how it works ───────────────────────────────── */}
+      <section className="depth-frost">
+        <div className="container-x grid items-center gap-12 py-20 md:py-28 lg:grid-cols-2">
           <AnimatedSection direction="left">
-            <p className="eyebrow">Wadsworth's Concrete Specialists</p>
-            <h2 className="display text-3xl md:text-5xl mt-3 text-steel">
-              Reliable Concrete &amp; Construction in Northeast Ohio
+            <h2 className="display text-3xl md:text-5xl text-foreground">
+              How the lane works
             </h2>
-            <span className="mt-5 block rule-red" />
-            <p className="text-muted-foreground text-lg mt-6 leading-relaxed">
-              {BUSINESS.blurb}
+            <span className="mt-4 block rule-ice" />
+            <p className="mt-6 leading-relaxed text-muted-foreground">
+              The blue building on College Street with the lane through the middle? That's
+              us. Groceries make you park, walk, and wait in line. We don't.
             </p>
-            <p className="text-muted-foreground mt-4 leading-relaxed">
-              From a single stamped patio to a full commercial parking lot, owner {BUSINESS.owner} and
-              his crew bring the same focus on quality, clear communication, and fair pricing to every
-              job.
-            </p>
-            <ul className="mt-7 grid sm:grid-cols-2 gap-3">
-              {["Free, no-obligation quotes", "Residential & commercial", "Honest, upfront pricing", "Clean, professional crews"].map((b) => (
-                <li key={b} className="flex items-center gap-2 text-steel font-medium">
-                  <CheckCircle2 size={18} className="text-brand shrink-0" /> {b}
+            <ol className="mt-8 space-y-5">
+              {LANE_STEPS.map((s) => (
+                <li key={s.n} className="flex gap-4">
+                  <span className="display flex h-10 w-10 shrink-0 items-center justify-center border border-border bg-white text-lg text-brand-deep">
+                    {s.n}
+                  </span>
+                  <span>
+                    <span className="block font-display uppercase tracking-wide text-foreground">
+                      {s.title}
+                    </span>
+                    <span className="mt-0.5 block text-sm leading-relaxed text-muted-foreground">
+                      {s.body}
+                    </span>
+                  </span>
                 </li>
               ))}
-            </ul>
+            </ol>
           </AnimatedSection>
-          <AnimatedSection direction="right" className="relative">
-            <img
-              src={IMAGES.stampedTan}
-              alt="Stamped concrete patio with decorative border by Kelley Concrete and Construction"
-              className="w-full h-[420px] object-cover shadow-xl"
-            />
-            <div className="hidden md:block absolute -bottom-6 -left-6 bg-steel text-white px-6 py-5 shadow-xl">
-              <div className="display text-3xl text-brand-glow">{BUSINESS.yearsExperience}</div>
-              <div className="text-xs uppercase tracking-wider text-white/75">Years in Business</div>
-            </div>
+          <AnimatedSection direction="right">
+            <figure className="border border-border bg-white p-2 shadow-[0_18px_50px_-24px_rgba(20,40,70,0.35)]">
+              <img
+                src={IMAGES.building}
+                alt="The Bear Cave drive-thru lane running through the light blue building at 474 College St"
+                className="h-auto w-full"
+                loading="lazy"
+              />
+              <figcaption className="px-2 py-2.5 text-xs text-muted-foreground">
+                474 College St, Wadsworth. The lane runs straight through.
+              </figcaption>
+            </figure>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Services — parallax scroll showcase */}
-      <ParallaxServicesShowcase />
-
-      {/* Why choose us */}
-      <section className="depth-white">
+      {/* ── What's in the cave ───────────────────────────────────── */}
+      <section className="depth-ice">
         <div className="container-x py-20 md:py-28">
           <AnimatedSection className="max-w-2xl">
-            <p className="eyebrow">Why Kelley</p>
-            <h2 className="display text-3xl md:text-5xl mt-3 text-steel">Built on Experience. Known for Quality.</h2>
-            <span className="mt-5 block rule-red" />
-          </AnimatedSection>
-          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {WHY.map((w, i) => (
-              <AnimatedSection key={w.title} delay={i * 0.08}>
-                <div className="flex items-center justify-center w-14 h-14 bg-brand/10 text-brand mb-5">
-                  <w.icon size={26} />
-                </div>
-                <h3 className="font-display uppercase text-lg tracking-wide text-steel">{w.title}</h3>
-                <p className="text-muted-foreground text-sm mt-2 leading-relaxed">{w.text}</p>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured projects */}
-      <section className="depth-concrete">
-        <div className="container-x py-20 md:py-28">
-          <AnimatedSection className="flex flex-wrap items-end justify-between gap-4">
-            <div className="max-w-2xl">
-              <p className="eyebrow">Recent Work</p>
-              <h2 className="display text-3xl md:text-5xl mt-3 text-steel">Project Gallery</h2>
-              <span className="mt-5 block rule-red" />
-            </div>
-            <Link href="/projects" className="inline-flex items-center gap-1.5 text-brand font-semibold uppercase tracking-wide text-sm hover:gap-3 transition-all">
-              View All Projects <ArrowRight size={16} />
-            </Link>
-          </AnimatedSection>
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-3 gap-4">
-            {PROJECT_GALLERY.slice(0, 6).map((p, i) => (
-              <AnimatedSection key={p.src} delay={i * 0.05}>
-                <div className="relative overflow-hidden group aspect-[4/3]">
-                  <img src={p.src} alt={p.alt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Service area */}
-      <section className="depth-steel text-white">
-        <div className="container-x py-20 md:py-24">
-          <AnimatedSection className="max-w-2xl">
-            <p className="eyebrow text-brand-glow">Service Area</p>
-            <h2 className="display text-3xl md:text-5xl mt-3">Proudly Serving Northeast Ohio</h2>
-            <span className="mt-5 block rule-red" />
-            <p className="text-white/75 mt-6 text-lg">
-              Based in Wadsworth and serving the surrounding communities within a 30-mile radius,
-              across Medina, Wayne, and western Summit counties.
+            <h2 className="display text-3xl md:text-5xl text-foreground">What's in the cave</h2>
+            <span className="mt-4 block rule-ice" />
+            <p className="mt-6 leading-relaxed text-muted-foreground">
+              Coolers run the length of the building and stay packed. Here's the short
+              version; the long version is behind your car window.
             </p>
           </AnimatedSection>
-          <div className="mt-10 flex flex-wrap gap-3">
-            {CITIES.map((c) => (
-              <Link
-                key={c.slug}
-                href={`/service-area/${c.slug}`}
-                className="bg-white/10 hover:bg-brand border border-white/15 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide transition-colors"
-              >
-                {c.name}
-              </Link>
+          <div className="mt-10 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+            {PRODUCTS.map((p, i) => (
+              <AnimatedSection key={p.slug} delay={(i % 3) * 0.05}>
+                <div className="flex h-full flex-col bg-white p-6">
+                  <h3 className="display text-xl text-foreground">{p.title}</h3>
+                  <p className="mt-2.5 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    {p.short}
+                  </p>
+                </div>
+              </AnimatedSection>
             ))}
           </div>
+          <AnimatedSection className="mt-8">
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 font-semibold uppercase tracking-wide text-brand-deep transition-colors hover:text-accent"
+            >
+              Look inside the coolers <ArrowRight size={16} />
+            </Link>
+          </AnimatedSection>
         </div>
       </section>
 
-      {/* Real Google reviews (SSR baked, live-refreshed on mount via /api/reviews) */}
+      {/* ── Catering band ────────────────────────────────────────── */}
+      <section className="depth-cave text-white">
+        <div className="container-x grid items-center gap-10 py-16 md:grid-cols-[1fr_auto] md:py-20">
+          <AnimatedSection>
+            <h2 className="display text-3xl md:text-4xl text-white">
+              Throwing something bigger than a Tuesday?
+            </h2>
+            <p className="mt-4 max-w-2xl leading-relaxed text-white/70">
+              We cater drinks for {CATERING.occasions.join(", ").toLowerCase()}, and whatever
+              else you're planning. Tell us the headcount and we'll handle the coolers.
+            </p>
+          </AnimatedSection>
+          <AnimatedSection direction="right">
+            <Link
+              href="/catering"
+              className="inline-flex items-center gap-2.5 bg-white px-8 py-4 font-semibold uppercase tracking-wide text-cave transition-colors hover:bg-brand-ice"
+            >
+              Beverage Catering <ArrowRight size={16} />
+            </Link>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* ── Reviews ──────────────────────────────────────────────── */}
       <Reviews />
 
-      <CallToAction />
+      {/* ── Visit band ───────────────────────────────────────────── */}
+      <section className="depth-frost">
+        <div className="container-x grid items-center gap-10 py-20 md:grid-cols-2 md:py-24">
+          <AnimatedSection direction="left">
+            <figure className="border border-border bg-white p-2">
+              <img
+                src={IMAGES.buildingWide}
+                alt="Bear Cave Drive Thru from College Street, with the beverage catering sign out front"
+                className="h-auto w-full"
+                loading="lazy"
+              />
+            </figure>
+          </AnimatedSection>
+          <AnimatedSection direction="right">
+            <h2 className="display text-3xl md:text-4xl text-foreground">
+              Locally owned, easy to find
+            </h2>
+            <span className="mt-4 block rule-ice" />
+            <p className="mt-6 leading-relaxed text-muted-foreground">
+              We're a Wadsworth business through and through, and the reviews keep saying
+              the same two things: fast, and friendly. Come see why.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={tel}
+                className="inline-flex items-center justify-center gap-2.5 bg-brand px-7 py-3.5 font-semibold uppercase tracking-wide text-white transition-colors hover:bg-brand-deep"
+              >
+                <Phone size={16} /> {BUSINESS.phone}
+              </a>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2.5 border border-foreground/25 px-7 py-3.5 font-semibold uppercase tracking-wide text-foreground transition-colors hover:border-brand-deep hover:text-brand-deep"
+              >
+                Hours &amp; Directions
+              </Link>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
     </Layout>
   );
 }

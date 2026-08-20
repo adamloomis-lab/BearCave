@@ -1,44 +1,72 @@
+/* Hallmark · macrostructure: Marquee Hero · genre: playful · theme: custom
+ * vibe: "arctic drive-thru, cold local fast fun" · paper oklch(97.5% 0.008 240)
+ * accent oklch(54% 0.19 27) warm-red ~3% · display: Clash Display · body: Supreme
+ * axes: light paper / display-heavy geometric / warm accent over cool brand field
+ * pre-emit critique: P4 H5 E4 S5 R4 V5
+ */
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Clash Display";
+  src: url("/fonts/ClashDisplay-Variable.woff2") format("woff2-variations");
+  font-weight: 200 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Supreme";
+  src: url("/fonts/Supreme-Variable.woff2") format("woff2-variations");
+  font-weight: 100 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Supreme";
+  src: url("/fonts/Supreme-VariableItalic.woff2") format("woff2-variations");
+  font-weight: 100 800;
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Oswald', 'Inter', ui-sans-serif, sans-serif;
+  --font-sans: "Supreme", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Clash Display", "Supreme", ui-sans-serif, sans-serif;
 
-  /* Palette drawn from the Kelley Concrete & Construction logo */
-  --color-brand: #6c1719;        /* brick red wordmark */
-  --color-brand-light: #8a2226;
-  --color-brand-dark: #4f1012;
-  --color-brand-glow: #ff9aa0;   /* bright coral red — legible on dark heroes (≈7.5:1 on steel-dark, WCAG AA) */
+  /* Cold Snap palette: glacial blues from the Bear Cave logo, signal red
+     held for CTAs only (the beer-sign heritage of the building). */
+  --color-brand: oklch(0.58 0.14 245);        /* glacial blue */
+  --color-brand-deep: oklch(0.46 0.13 250);
+  --color-brand-ice: oklch(0.9 0.045 235);    /* pale ice tint */
+  --color-accent: oklch(0.54 0.19 27);        /* signal red: CTAs only */
+  --color-accent-deep: oklch(0.46 0.17 27);
 
-  --color-steel: #26262a;        /* dark nav / footer / headings band */
-  --color-steel-light: #3a3a40;
-  --color-steel-dark: #161618;
+  --color-cave: oklch(0.23 0.045 258);        /* dark cave band */
+  --color-cave-deep: oklch(0.17 0.04 258);
 
-  --color-concrete: #676e7c;     /* mid concrete gray (logo rule) — darkened to ≈4.5:1 for WCAG AA */
-  --color-concrete-light: #d9d9d6;
-
-  --color-background: #f6f6f4;   /* poured-concrete off-white */
-  --color-foreground: #1b1b1e;
-  --color-muted: #ececea;
-  --color-muted-foreground: #5a5a60;
-  --color-border: #e1e1dd;
+  --color-background: oklch(0.975 0.008 240); /* frost-white paper */
+  --color-paper-2: oklch(0.945 0.014 237);    /* glacier tint */
+  --color-foreground: oklch(0.24 0.045 255);  /* cave-navy ink */
+  --color-muted-foreground: oklch(0.45 0.028 250);
+  --color-border: oklch(0.885 0.018 240);     /* frost hairline */
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-  html {
-    scroll-behavior: smooth;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: 0.005em;
+    overflow-wrap: anywhere;
+    min-width: 0;
   }
   a, button:not(:disabled), [role="button"] {
     cursor: pointer;
@@ -59,72 +87,90 @@
     .container-x { padding-inline: 2rem; }
   }
 
-  /* Small uppercase eyebrow label */
-  .eyebrow {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.22em;
+  /* Big display headings: Clash, uppercase, tight leading */
+  .display {
+    font-family: var(--font-display);
     text-transform: uppercase;
-    color: var(--color-brand);
+    font-weight: 600;
+    letter-spacing: 0.006em;
+    line-height: 0.96;
   }
 
-  .rule-red {
+  /* Squared hairline plaque label (house standard: no pills, no accent bars) */
+  .plaque {
+    display: inline-block;
+    border: 1px solid var(--color-border);
+    padding: 0.3rem 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+    background: var(--color-background);
+  }
+  .plaque-dark {
+    border-color: color-mix(in oklch, white 18%, transparent);
+    color: color-mix(in oklch, white 72%, transparent);
+    background: transparent;
+  }
+
+  /* The lane: a road-marking divider drawn from the real drive-thru lane.
+     Solid edge lines + dashed center line. */
+  .rule-lane {
+    position: relative;
+    height: 14px;
+    background:
+      linear-gradient(var(--color-foreground), var(--color-foreground)) top / 100% 2px no-repeat,
+      repeating-linear-gradient(90deg, var(--color-accent) 0 26px, transparent 26px 50px) center / 100% 3px no-repeat,
+      linear-gradient(var(--color-foreground), var(--color-foreground)) bottom / 100% 2px no-repeat;
+  }
+  .rule-lane-dark {
+    background:
+      linear-gradient(oklch(1 0 0 / 0.35), oklch(1 0 0 / 0.35)) top / 100% 2px no-repeat,
+      repeating-linear-gradient(90deg, oklch(0.72 0.12 235) 0 26px, transparent 26px 50px) center / 100% 3px no-repeat,
+      linear-gradient(oklch(1 0 0 / 0.35), oklch(1 0 0 / 0.35)) bottom / 100% 2px no-repeat;
+  }
+
+  /* Short flat rule under headings */
+  .rule-ice {
     width: 64px;
     height: 3px;
     background-color: var(--color-brand);
   }
-
-  /* Big condensed display headings */
-  .display {
-    font-family: var(--font-display);
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    line-height: 0.98;
-  }
 }
 
-/* ── Texture & depth ────────────────────────────────────────────── */
+/* ── Surfaces ───────────────────────────────────────────────────── */
 
-/* Fine grain over the whole site for a poured-concrete feel (below the nav) */
-.site-grain {
-  position: fixed;
-  inset: 0;
-  z-index: 30;
-  pointer-events: none;
-  opacity: 0.5;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
-}
-
-.depth-concrete {
+.depth-frost {
   background-color: var(--color-background);
-  background-image: radial-gradient(120% 90% at 50% -10%, #ffffff 0%, #f6f6f4 55%, #e9e9e5 100%);
+  background-image: radial-gradient(120% 90% at 50% -10%,
+    #ffffff 0%, oklch(0.975 0.008 240) 55%, oklch(0.93 0.02 237) 100%);
 }
-.depth-white {
-  background-image: linear-gradient(180deg, #ffffff 0%, #f7f7f5 100%);
+.depth-ice {
+  background-color: var(--color-paper-2);
+  background-image: linear-gradient(180deg,
+    oklch(0.955 0.012 238) 0%, oklch(0.925 0.022 236) 100%);
 }
-.depth-steel {
-  background-color: var(--color-steel);
-  background-image:
-    radial-gradient(100% 80% at 50% 0%, #34343a 0%, #26262a 50%, #161618 100%);
+.depth-cave {
+  background-color: var(--color-cave);
+  background-image: radial-gradient(110% 85% at 50% 0%,
+    oklch(0.29 0.05 256) 0%, oklch(0.23 0.045 258) 55%, oklch(0.16 0.04 260) 100%);
 }
 
-/* Diagonal hazard-stripe accent for select dividers */
-.stripe-red {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    var(--color-brand) 0 12px,
-    var(--color-brand-dark) 12px 24px
-  );
+/* Frosted-glass photo texture for the marquee hero */
+.hero-frost {
+  background-image:
+    linear-gradient(180deg, oklch(0.975 0.008 240 / 0.55) 0%, oklch(0.975 0.008 240 / 0.86) 78%, var(--color-background) 100%),
+    url("/images/hero-frost-bg.webp");
+  background-size: cover;
+  background-position: center;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 9px; }
-::-webkit-scrollbar-track { background: #e6e6e3; }
-::-webkit-scrollbar-thumb { background: #6c1719; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #4f1012; }
+::-webkit-scrollbar-track { background: oklch(0.93 0.015 238); }
+::-webkit-scrollbar-thumb { background: oklch(0.58 0.14 245); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: oklch(0.46 0.13 250); }
 
 /* Typography for legal / long-form pages */
 .legal-prose h2 {
@@ -134,7 +180,7 @@
   letter-spacing: 0.01em;
   margin-top: 2.25rem;
   margin-bottom: 0.75rem;
-  color: var(--color-steel);
+  color: var(--color-foreground);
 }
 .legal-prose h3 {
   font-family: var(--font-display);
@@ -143,86 +189,57 @@
   letter-spacing: 0.02em;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
-  color: var(--color-steel);
+  color: var(--color-foreground);
 }
 .legal-prose p { margin-bottom: 1rem; }
 .legal-prose ul { list-style: disc; padding-left: 1.25rem; margin-bottom: 1rem; }
 .legal-prose li { margin-bottom: 0.4rem; }
-.legal-prose a { color: var(--color-brand); text-decoration: underline; text-underline-offset: 3px; }
-.legal-prose a:hover { color: var(--color-brand-dark); }
+.legal-prose a { color: var(--color-brand-deep); text-decoration: underline; text-underline-offset: 3px; }
+.legal-prose a:hover { color: var(--color-accent); }
 
-/* ── Project carousel (Swiper coverflow) ───────────────────────── */
-.project-carousel .swiper {
-  padding-block: 1rem 3rem;
-  overflow: visible; /* let neighbor cards peek beyond the container */
+/* ── Product ticker (one slow marquee, pauses for reduced motion) ── */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
-.project-carousel .swiper-wrapper {
-  align-items: center;
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 36s linear infinite;
 }
-.project-carousel .swiper-slide {
-  width: clamp(240px, 70vw, 360px);
-  height: clamp(320px, 80vw, 460px);
-  transition: opacity 300ms ease;
-}
-.project-carousel .swiper-slide:not(.swiper-slide-active) {
-  opacity: 0.55;
-}
-.project-carousel .swiper-pagination {
-  position: relative;
-  margin-top: 1rem;
-}
-.project-carousel .swiper-pagination-bullet {
-  background: var(--color-concrete);
-  opacity: 0.4;
-}
-.project-carousel .swiper-pagination-bullet-active {
-  background: var(--color-brand);
-  opacity: 1;
-}
+.ticker-track:hover { animation-play-state: paused; }
 
-@keyframes bounce-slow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
-}
-.animate-bounce-slow { animation: bounce-slow 2.5s ease-in-out infinite; }
+/* ── Fluid form + CTA motion ───────────────────────────────────── */
 
-/* Fluid form + CTA motion ─────────────────────────────────────── */
-
-/* Drawn checkmark for the personalized thank-you state */
 @keyframes draw-check {
   to { stroke-dashoffset: 0; }
 }
-
-/* Thank-you card entrance */
 @keyframes rise {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-/* Light sweep across brand buttons on hover */
 @keyframes sheen {
   0% { transform: translateX(-120%) skewX(-12deg); }
   100% { transform: translateX(320%) skewX(-12deg); }
 }
-
-/* Soft pulsing glow ring on the primary CTA */
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 10px 30px -10px rgba(108,23,25,0.55), 0 0 0 0 rgba(108,23,25,0.45); }
-  50% { box-shadow: 0 14px 38px -10px rgba(108,23,25,0.65), 0 0 0 7px rgba(108,23,25,0); }
+  0%, 100% { box-shadow: 0 10px 30px -10px oklch(0.54 0.19 27 / 0.5), 0 0 0 0 oklch(0.54 0.19 27 / 0.4); }
+  50% { box-shadow: 0 14px 38px -10px oklch(0.54 0.19 27 / 0.6), 0 0 0 7px oklch(0.54 0.19 27 / 0); }
 }
 .animate-glow-pulse { animation: glow-pulse 2.6s ease-in-out infinite; }
 
-/* WCAG 2.4.7 — keyboard focus indicator */
+/* WCAG 2.4.7: keyboard focus indicator */
 *:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-brand-deep);
   outline-offset: 3px;
 }
 
-/* WCAG 2.3.3 — respect reduced-motion preference */
+/* WCAG 2.3.3: respect reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .ticker-track { animation: none; }
 }

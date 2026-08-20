@@ -1,8 +1,7 @@
-import { BUSINESS, SERVICES, CITIES, GOOGLE_RATING, GOOGLE_REVIEWS, IMAGES } from "./constants";
+import { BUSINESS, PRODUCTS, FAQS, GOOGLE_RATING, GOOGLE_REVIEWS, IMAGES } from "./constants";
 
-// Production domain (cutover 2026-06-01). The netlify.app subdomain still serves
-// the site as an alias, but all canonicals / OG / JSON-LD reference the real domain.
-export const SITE_URL = "https://kelleyconstructionohio.com";
+// Staging domain until the client's domain cutover; canonicals flip then.
+export const SITE_URL = "https://bear-cave-drive-thru.netlify.app";
 
 export const abs = (path: string) => `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
@@ -11,37 +10,23 @@ export const abs = (path: string) => `${SITE_URL}${path.startsWith("/") ? path :
 export const pageUrl = (path: string) =>
   abs(path === "/" ? "/" : path.endsWith("/") ? path : `${path}/`);
 
-// ~30-mile service radius around Wadsworth, plus the named cities we target.
-const AREA_SERVED = [
-  {
-    "@type": "GeoCircle",
-    geoMidpoint: {
-      "@type": "GeoCoordinates",
-      latitude: BUSINESS.geo.lat,
-      longitude: BUSINESS.geo.lng,
-    },
-    geoRadius: "48280", // 30 miles in meters
-  },
-  ...CITIES.map((c) => ({ "@type": "City", name: `${c.name}, OH` })),
-];
-
-// Core GeneralContractor / LocalBusiness node, reused across pages.
+// Core LiquorStore / ConvenienceStore node, reused across pages.
 export function localBusinessSchema() {
   const a = BUSINESS.address;
-  const node: Record<string, unknown> = {
+  return {
     "@context": "https://schema.org",
-    "@type": ["GeneralContractor", "LocalBusiness"],
+    "@type": ["LiquorStore", "ConvenienceStore", "LocalBusiness"],
     "@id": `${SITE_URL}/#business`,
     name: BUSINESS.name,
-    legalName: BUSINESS.legalName,
+    alternateName: BUSINESS.shortName,
     url: SITE_URL,
-    image: abs(IMAGES.heroStampedSteps),
+    image: abs(IMAGES.building),
     logo: abs(IMAGES.logo),
     telephone: BUSINESS.phone,
-    priceRange: "$$",
+    priceRange: "$",
     address: {
       "@type": "PostalAddress",
-      streetAddress: a.street || undefined,
+      streetAddress: a.street,
       addressLocality: a.city,
       addressRegion: a.state,
       postalCode: a.zip,
@@ -52,23 +37,14 @@ export function localBusinessSchema() {
       latitude: BUSINESS.geo.lat,
       longitude: BUSINESS.geo.lng,
     },
-    areaServed: AREA_SERVED,
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: BUSINESS.hoursSpec.weekdays.days,
-        opens: BUSINESS.hoursSpec.weekdays.opens,
-        closes: BUSINESS.hoursSpec.weekdays.closes,
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: BUSINESS.hoursSpec.saturday.days,
-        opens: BUSINESS.hoursSpec.saturday.opens,
-        closes: BUSINESS.hoursSpec.saturday.closes,
-      },
-    ],
-    sameAs: [BUSINESS.social.facebook, BUSINESS.social.instagram].filter(Boolean),
-    foundingDate: String(BUSINESS.founded),
+    areaServed: { "@type": "City", name: `${a.city}, OH` },
+    openingHoursSpecification: BUSINESS.hoursSpec.map((h) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: h.days,
+      opens: h.opens,
+      closes: h.closes,
+    })),
+    sameAs: [BUSINESS.social.facebook],
     slogan: BUSINESS.tagline,
     aggregateRating: {
       "@type": "AggregateRating",
@@ -87,10 +63,6 @@ export function localBusinessSchema() {
       },
     ],
   };
-  if (BUSINESS.googleBusinessProfile) {
-    (node.sameAs as string[]).push(BUSINESS.googleBusinessProfile);
-  }
-  return node;
 }
 
 export function websiteSchema() {
@@ -129,19 +101,6 @@ function faqSchema(faqs: { q: string; a: string }[]) {
   };
 }
 
-function serviceSchema(name: string, description: string, path: string, areaName?: string) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    serviceType: name,
-    name: areaName ? `${name} in ${areaName}, OH` : name,
-    description,
-    url: pageUrl(path),
-    provider: { "@id": `${SITE_URL}/#business` },
-    areaServed: areaName ? { "@type": "City", name: `${areaName}, OH` } : AREA_SERVED,
-  };
-}
-
 function reviewNodes() {
   return GOOGLE_REVIEWS.map((r) => ({
     "@type": "Review",
@@ -160,154 +119,89 @@ export type PageMeta = {
   jsonLd: object[];
 };
 
-const DEFAULT_OG = abs(IMAGES.heroStampedSteps);
-const CITY_NAMES = CITIES.map((c) => c.name).join(", ");
+const DEFAULT_OG = abs(IMAGES.building);
+const PRODUCT_NAMES = PRODUCTS.map((p) => p.title).join(", ");
 
 // Resolve full SEO metadata for any route. Single source of truth for both
 // the client <Seo> component and the build-time prerender script.
 export function getPageMeta(rawPath: string): PageMeta {
   const path = rawPath !== "/" ? rawPath.replace(/\/$/, "") : "/";
 
-  // /services/:slug
-  if (path.startsWith("/services/")) {
-    const slug = path.split("/")[2];
-    const svc = SERVICES.find((s) => s.slug === slug);
-    if (svc) {
-      return {
-        title: `${svc.title} in Wadsworth & Northeast Ohio | ${BUSINESS.name}`,
-        description: `${svc.intro} Serving ${CITY_NAMES}. Free quotes. Call ${BUSINESS.phone}.`,
-        canonical: pageUrl(path),
-        ogImage: abs(svc.image),
-        jsonLd: [
-          localBusinessSchema(),
-          serviceSchema(svc.title, svc.intro, path),
-          breadcrumb([
-            { name: "Home", path: "/" },
-            { name: "Services", path: "/services" },
-            { name: svc.navTitle, path },
-          ]),
-          ...(svc.faqs.length ? [faqSchema(svc.faqs)] : []),
-        ],
-      };
-    }
-  }
-
-  // /service-area/:city
-  if (path.startsWith("/service-area/")) {
-    const slug = path.split("/")[2];
-    const city = CITIES.find((c) => c.slug === slug);
-    if (city) {
-      return {
-        title: `Concrete Contractor in ${city.name}, OH | Driveways, Patios & Stamped Concrete`,
-        description: `${BUSINESS.name} provides concrete driveways, stamped patios, repair, and commercial concrete in ${city.name}, ${city.county}. 20+ years of experience. Free quotes. Call ${BUSINESS.phone}.`,
-        canonical: pageUrl(path),
-        ogImage: DEFAULT_OG,
-        jsonLd: [
-          localBusinessSchema(),
-          serviceSchema("Concrete Contractor", `Concrete driveways, patios, stamped concrete, repair, and commercial concrete in ${city.name}, ${city.county}.`, path, city.name),
-          breadcrumb([
-            { name: "Home", path: "/" },
-            { name: "Service Area", path: "/service-area" },
-            { name: city.name, path },
-          ]),
-          faqSchema([
-            {
-              q: `Do you offer concrete services in ${city.name}, Ohio?`,
-              a: `Yes. ${BUSINESS.name} serves ${city.name} and the surrounding ${city.county} area with concrete driveways, stamped patios, walkways, concrete repair, demolition, excavation, and commercial concrete.`,
-            },
-            {
-              q: `How do I get a free concrete quote in ${city.name}?`,
-              a: `Call ${BUSINESS.phone} or request a quote through our contact page. We'll schedule a visit, review your project, and provide a free, no-obligation estimate.`,
-            },
-          ]),
-        ],
-      };
-    }
-  }
-
   switch (path) {
     case "/":
       return {
-        title: `${BUSINESS.name} | Concrete Contractor in Wadsworth, OH`,
-        description: `${BUSINESS.blurb} Stamped concrete, driveways, patios, repair & commercial concrete. Free quotes. Call ${BUSINESS.phone}.`,
+        title: `${BUSINESS.name} | Wadsworth's Drive-Thru for Beer, Wine & Snacks`,
+        description: `${BUSINESS.blurb} Open seven days. Call ${BUSINESS.phone}.`,
         canonical: pageUrl("/"),
         ogImage: DEFAULT_OG,
         jsonLd: [
           { ...localBusinessSchema(), review: reviewNodes() },
           websiteSchema(),
+          faqSchema(FAQS),
         ],
       };
-    case "/services":
+    case "/products":
       return {
-        title: `Concrete & Construction Services | ${BUSINESS.name}`,
-        description: `Stamped concrete, driveways & flatwork, patios & walkways, concrete repair, demolition & excavation, and commercial concrete across Northeast Ohio. Free quotes. Call ${BUSINESS.phone}.`,
-        canonical: pageUrl("/services"),
-        ogImage: DEFAULT_OG,
+        title: `What's in the Cave | ${BUSINESS.name}`,
+        description: `${PRODUCT_NAMES} at Bear Cave in Wadsworth, OH. Cold coolers stocked seven days a week at 474 College St. Call ${BUSINESS.phone}.`,
+        canonical: pageUrl("/products"),
+        ogImage: abs(IMAGES.coolers),
         jsonLd: [
           localBusinessSchema(),
           breadcrumb([
             { name: "Home", path: "/" },
-            { name: "Services", path: "/services" },
+            { name: "Products", path: "/products" },
           ]),
         ],
       };
-    case "/service-area":
+    case "/catering":
       return {
-        title: `Service Area | Concrete Contractor Serving Medina, Wayne & Summit Counties`,
-        description: `${BUSINESS.name} serves ${CITY_NAMES} and the wider Northeast Ohio region with residential and commercial concrete. Free quotes. Call ${BUSINESS.phone}.`,
-        canonical: pageUrl("/service-area"),
+        title: `Beverage Catering in Wadsworth, OH | ${BUSINESS.name}`,
+        description: `Bear Cave supplies drinks for weddings, office events, and parties around Wadsworth. Tell us the headcount and we'll handle the coolers. Call ${BUSINESS.phone}.`,
+        canonical: pageUrl("/catering"),
         ogImage: DEFAULT_OG,
-        jsonLd: [
-          localBusinessSchema(),
-          breadcrumb([
-            { name: "Home", path: "/" },
-            { name: "Service Area", path: "/service-area" },
-          ]),
-        ],
-      };
-    case "/projects":
-      return {
-        title: `Project Gallery | ${BUSINESS.name}`,
-        description: `See recent stamped concrete patios, driveways, walkways, retaining walls, and commercial concrete projects completed by ${BUSINESS.name} across Northeast Ohio.`,
-        canonical: pageUrl("/projects"),
-        ogImage: abs(IMAGES.stampedTan),
         jsonLd: [
           localBusinessSchema(),
           {
             "@context": "https://schema.org",
-            "@type": "VideoObject",
-            name: "Concrete Driveway & Patio Project, Kelley Concrete and Construction",
+            "@type": "Service",
+            serviceType: "Beverage catering",
+            name: "Beverage Catering in Wadsworth, OH",
             description:
-              "Time-lapse of the Kelley Concrete and Construction crew pouring and finishing a residential concrete driveway and patio in Northeast Ohio.",
-            thumbnailUrl: abs("/videos/driveway-patio-project-poster.jpg"),
-            contentUrl: abs("/videos/driveway-patio-project.mp4"),
-            uploadDate: "2026-05-21",
-            publisher: { "@id": `${SITE_URL}/#business` },
+              "Drink supply for weddings, office events, and parties: beer, wine, seltzers, soda, and mixers, kept cold.",
+            url: pageUrl("/catering"),
+            provider: { "@id": `${SITE_URL}/#business` },
+            areaServed: { "@type": "City", name: "Wadsworth, OH" },
           },
+          breadcrumb([
+            { name: "Home", path: "/" },
+            { name: "Catering", path: "/catering" },
+          ]),
         ],
       };
-    case "/about":
+    case "/jobs":
       return {
-        title: `About | ${BUSINESS.name}, 20+ Years in Wadsworth, Ohio`,
-        description: `For more than 20 years, ${BUSINESS.name} has provided dependable residential and commercial concrete work across Northeast Ohio. Meet the team and our approach.`,
-        canonical: pageUrl("/about"),
-        ogImage: abs(IMAGES.commercialPour),
+        title: `Jobs at Bear Cave | ${BUSINESS.name}`,
+        description: `Bear Cave in Wadsworth is hiring friendly, reliable people. Apply online, stop by 474 College St, or message us on Facebook.`,
+        canonical: pageUrl("/jobs"),
+        ogImage: DEFAULT_OG,
         jsonLd: [
           localBusinessSchema(),
           breadcrumb([
             { name: "Home", path: "/" },
-            { name: "About", path: "/about" },
+            { name: "Jobs", path: "/jobs" },
           ]),
         ],
       };
     case "/contact":
       return {
-        title: `Contact & Free Quote | ${BUSINESS.name}`,
-        description: `Request a free concrete quote from ${BUSINESS.name}. Call ${BUSINESS.phone} or send a message. Serving Wadsworth and Northeast Ohio.`,
+        title: `Hours, Directions & Contact | ${BUSINESS.name}`,
+        description: `Find Bear Cave at 474 College St, Wadsworth, OH 44281. Open seven days. Call ${BUSINESS.phone} or send a message.`,
         canonical: pageUrl("/contact"),
         ogImage: DEFAULT_OG,
         jsonLd: [
           localBusinessSchema(),
+          faqSchema(FAQS),
           breadcrumb([
             { name: "Home", path: "/" },
             { name: "Contact", path: "/contact" },
@@ -317,7 +211,7 @@ export function getPageMeta(rawPath: string): PageMeta {
     case "/privacy":
       return {
         title: `Privacy Policy | ${BUSINESS.name}`,
-        description: `How ${BUSINESS.name} collects, uses, and protects information from visitors to kelleyconstructionohio.com.`,
+        description: `How ${BUSINESS.name} collects, uses, and protects information from visitors to this website.`,
         canonical: pageUrl("/privacy"),
         ogImage: DEFAULT_OG,
         jsonLd: [
@@ -359,7 +253,7 @@ export function getPageMeta(rawPath: string): PageMeta {
     default:
       return {
         title: `Page Not Found | ${BUSINESS.name}`,
-        description: `Sorry, we couldn't find that page. ${BUSINESS.name} provides concrete and construction services across Northeast Ohio.`,
+        description: `Sorry, we couldn't find that page. ${BUSINESS.name} is Wadsworth's drive-thru beverage store at 474 College St.`,
         canonical: pageUrl(path),
         ogImage: DEFAULT_OG,
         jsonLd: [localBusinessSchema()],
@@ -370,12 +264,9 @@ export function getPageMeta(rawPath: string): PageMeta {
 // Every path that should be prerendered to static HTML + listed in the sitemap.
 export const ALL_ROUTES: string[] = [
   "/",
-  "/services",
-  ...SERVICES.map((s) => `/services/${s.slug}`),
-  "/service-area",
-  ...CITIES.map((c) => `/service-area/${c.slug}`),
-  "/projects",
-  "/about",
+  "/products",
+  "/catering",
+  "/jobs",
   "/contact",
   "/privacy",
   "/terms",

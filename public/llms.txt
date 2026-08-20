@@ -1,16 +1,28 @@
-# Kelley Construction
+# Bear Cave Drive Thru
 
-> Kelley Construction is a concrete contractor in Wadsworth, OH. This file gives AI assistants a clear, accurate overview of the business and its most important pages.
+> Wadsworth, Ohio's drive-thru beverage store. Pull your car into the lane that runs
+> through the building and pick up cold beer, wine, seltzers, soda, snacks, candy,
+> Ohio Lottery, and tobacco without leaving your seat. Locally owned and operated.
 
-## What we do
-- Concrete contractor serving Wadsworth, OH.
+Address: 474 College St, Wadsworth, OH 44281
+Phone: (330) 334-3887
+Facebook: https://www.facebook.com/BEARCAVEWADSWORTH
+Hours: Mon-Wed 8 AM-9 PM · Thu-Fri 8 AM-10 PM · Sat 9 AM-10 PM · Sun 10 AM-9 PM
+Google rating: 4.7 from 17 reviews
 
-## Service area
-Wadsworth, OH and the surrounding area.
+## Pages
 
-## Key pages
-- Home: https://kelleyconstructionohio.com/
-- Contact: https://kelleyconstructionohio.com/contact
+- [Home](https://bear-cave-drive-thru.netlify.app/): What the drive-thru is and how it works
+- [Products](https://bear-cave-drive-thru.netlify.app/products/): Beer, wine & seltzers, soda & mixers, snacks & candy, Ohio Lottery, tobacco, with photos of the actual coolers
+- [Catering](https://bear-cave-drive-thru.netlify.app/catering/): Beverage catering for weddings, office events, and parties
+- [Jobs](https://bear-cave-drive-thru.netlify.app/jobs/): Online application; also hiring in person and via Facebook
+- [Contact](https://bear-cave-drive-thru.netlify.app/contact/): Hours, map, phone, message form, FAQ
 
-## Contact
-Kelley Construction. 223 W. Bergey St, Wadsworth, OH, 44281. (330) 608-7957 https://kelleyconstructionohio.com
+## Facts
+
+- Drive-thru format: the lane passes through the building; staff fetch items and take payment at your car window
+- Walk-up customers welcome during open hours
+- Alcohol and tobacco require a valid ID, 21+
+- Official Ohio Lottery retailer
+- Beverage catering available for events; call (330) 334-3887
+- No online ordering; all sales in person
