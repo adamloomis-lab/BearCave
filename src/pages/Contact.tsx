@@ -53,7 +53,7 @@ export default function Contact() {
       />
 
       {/* Hours + map */}
-      <section className="depth-frost" data-narrate="contact-hours">
+      <section className="depth-frost">
         <div className="container-x grid gap-10 py-16 md:py-24 lg:grid-cols-2">
           <AnimatedSection direction="left">
             <div className="border border-border bg-white p-7 shadow-sm md:p-9">
@@ -125,7 +125,7 @@ export default function Contact() {
       </section>
 
       {/* Message form */}
-      <section className="depth-ice" data-narrate="contact-form">
+      <section className="depth-ice">
         <div className="container-x grid gap-12 py-16 md:py-24 lg:grid-cols-5">
           <AnimatedSection direction="left" className="lg:col-span-2">
             <h2 className="display text-3xl text-foreground">Send us a message</h2>

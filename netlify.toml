@@ -14,17 +14,6 @@
   to = "/.netlify/functions/reviews"
   status = 200
 
-# Voice stack: chat assistant + read-aloud in the store's ElevenLabs voice.
-[[redirects]]
-  from = "/api/chat"
-  to = "/.netlify/functions/chat"
-  status = 200
-
-[[redirects]]
-  from = "/api/tts"
-  to = "/.netlify/functions/tts"
-  status = 200
-
 # Prerendered per-route HTML is served directly (Netlify serves existing files
 # before applying this fallback). The fallback only catches client-side routes
 # that have no prerendered file.
@@ -60,5 +49,5 @@
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "accelerometer=(), autoplay=(self), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(self), payment=(), usb=()"
+    Permissions-Policy = "accelerometer=(), autoplay=(self), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
     Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; script-src 'self' 'unsafe-inline' https://simplyvisible.online https://www.simplyvisible.online https://adamloomismarketing.com https://umami-production-8669.up.railway.app https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: data:; worker-src 'self' blob:; connect-src 'self' https://simplyvisible.online https://www.simplyvisible.online https://adamloomismarketing.com https://umami-production-8669.up.railway.app https://*.clarity.ms; frame-src 'self' https://www.google.com; form-action 'self'"

@@ -32,7 +32,7 @@ export default function Home() {
   return (
     <Layout>
       {/* ── Marquee hero ─────────────────────────────────────────── */}
-      <section className="hero-frost" data-narrate="home-hero">
+      <section className="hero-frost">
         <div className="container-x flex min-h-[62vh] flex-col justify-center py-16 md:py-24">
           <AnimatedSection>
             <p className="font-semibold uppercase tracking-[0.2em] text-brand-deep">
@@ -90,7 +90,7 @@ export default function Home() {
       </div>
 
       {/* ── The lane: how it works ───────────────────────────────── */}
-      <section className="depth-frost" data-narrate="home-lane">
+      <section className="depth-frost">
         <div className="container-x grid items-center gap-12 py-20 md:py-28 lg:grid-cols-2">
           <AnimatedSection direction="left">
             <h2 className="display text-3xl md:text-5xl text-foreground">
@@ -136,7 +136,7 @@ export default function Home() {
       </section>
 
       {/* ── What's in the cave ───────────────────────────────────── */}
-      <section className="depth-ice" data-narrate="home-products">
+      <section className="depth-ice">
         <div className="container-x py-20 md:py-28">
           <AnimatedSection className="max-w-2xl">
             <h2 className="display text-3xl md:text-5xl text-foreground">What's in the cave</h2>
@@ -170,7 +170,7 @@ export default function Home() {
       </section>
 
       {/* ── Catering band ────────────────────────────────────────── */}
-      <section className="depth-cave text-white" data-narrate="home-catering">
+      <section className="depth-cave text-white">
         <div className="container-x grid items-center gap-10 py-16 md:grid-cols-[1fr_auto] md:py-20">
           <AnimatedSection>
             <h2 className="display text-3xl md:text-4xl text-white">
@@ -196,7 +196,7 @@ export default function Home() {
       <Reviews />
 
       {/* ── Visit band ───────────────────────────────────────────── */}
-      <section className="depth-frost" data-narrate="home-visit">
+      <section className="depth-frost">
         <div className="container-x grid items-center gap-10 py-20 md:grid-cols-2 md:py-24">
           <AnimatedSection direction="left">
             <figure className="border border-border bg-white p-2">
