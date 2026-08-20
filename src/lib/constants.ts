@@ -127,7 +127,7 @@ export const PRODUCTS: ProductCategory[] = [
   {
     slug: "beer",
     title: "Beer",
-    short: "The coldest beer in town, in singles, six-packs, and cases.",
+    short: "Domestics, imports, and Ohio craft in singles, six-packs, and cases, all kept cold.",
   },
   {
     slug: "wine-seltzers",

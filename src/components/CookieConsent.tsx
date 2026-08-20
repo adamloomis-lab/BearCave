@@ -5,17 +5,11 @@ import { Cookie } from "lucide-react";
 
 const STORAGE_KEY = "bc.cookieConsent";
 
-// Consent-gated Microsoft Clarity. Loads only after an explicit "Got It",
-// and only when a project id is configured at build time.
-const CLARITY_ID = import.meta.env.VITE_CLARITY_ID as string | undefined;
-
+// Consent-gated Microsoft Clarity. The loader itself lives in index.html
+// (window.loadClarity, id injected at build via %VITE_CLARITY_ID%) so it
+// survives bundling; this just invokes it after an explicit "Got It".
 function loadClarity() {
-  if (!CLARITY_ID || document.getElementById("clarity-script")) return;
-  const s = document.createElement("script");
-  s.id = "clarity-script";
-  s.async = true;
-  s.src = `https://www.clarity.ms/tag/${CLARITY_ID}`;
-  document.head.appendChild(s);
+  (window as unknown as { loadClarity?: () => void }).loadClarity?.();
 }
 
 // Dismissible cookie notice. Renders nothing during prerender (useEffect-gated),

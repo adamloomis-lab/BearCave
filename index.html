@@ -14,7 +14,26 @@
 
     <link rel="preload" href="/fonts/ClashDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/Supreme-Variable.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/images/hero-frost-bg.webp" as="image" type="image/webp" />
+    <link rel="preload" href="/images/hero-frost-bg.webp" as="image" type="image/webp" fetchpriority="high" />
+
+    <!-- Consent-gated Microsoft Clarity. Vite substitutes %VITE_CLARITY_ID% at
+         build time; until the env var is set this stays a harmless no-op.
+         CookieConsent.tsx calls window.loadClarity() on accept. -->
+    <script>
+      window.__CLARITY_ID = "%VITE_CLARITY_ID%";
+      window.loadClarity = function () {
+        var id = window.__CLARITY_ID;
+        if (!id || id.indexOf("%") !== -1 || document.getElementById("clarity-script")) return;
+        var s = document.createElement("script");
+        s.id = "clarity-script";
+        s.async = true;
+        s.src = "https://www.clarity.ms/tag/" + id;
+        document.head.appendChild(s);
+      };
+      try {
+        if (localStorage.getItem("bc.cookieConsent") === "accepted") window.loadClarity();
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -11,59 +11,81 @@ const directions = `https://maps.google.com/?q=${encodeURIComponent(
 
 // Real photos from inside the store, labeled by what each cooler actually
 // holds. Stock rotates, so copy stays at the category level.
-const GALLERY: { src: string; alt: string; caption: string }[] = [
+const GALLERY: { src: string; alt: string; caption: string; w: number; h: number }[] = [
   {
     src: "/images/cooler-domestics.webp",
+    w: 1000,
+    h: 1778,
     alt: "Cooler door stocked with domestic beer cans and bottles",
     caption: "The domestics door: cans up top, six-packs below.",
   },
   {
     src: "/images/cooler-ohio-craft.webp",
+    w: 1000,
+    h: 1778,
     alt: "Cooler shelves of Ohio craft beer cans and twelve-packs",
     caption: "Ohio craft pulls its weight here.",
   },
   {
     src: "/images/cooler-imports-craft.webp",
+    w: 1000,
+    h: 1778,
     alt: "Cooler door of imported and craft bottles",
     caption: "Imports and bottle six-packs, floor to ceiling.",
   },
   {
     src: "/images/cooler-cocktails.webp",
+    w: 1000,
+    h: 1778,
     alt: "Cooler full of canned cocktails and hard seltzers",
     caption: "The canned-cocktail wall.",
   },
   {
     src: "/images/cooler-seasonal.webp",
+    w: 1000,
+    h: 1778,
     alt: "Cooler with summer beers, hard ciders, and ready-to-drink bottles",
     caption: "Seasonal rotation, always cold.",
   },
   {
     src: "/images/cooler-singles.webp",
+    w: 1000,
+    h: 1778,
     alt: "Cooler of single tall cans",
     caption: "Singles and tall boys when you just need one.",
   },
   {
     src: "/images/shelf-summer.webp",
+    w: 1000,
+    h: 1334,
     alt: "Shelf of summer beer six-packs",
     caption: "Summer stock on deck.",
   },
   {
     src: "/images/shelf-vodka-ades.webp",
+    w: 1000,
+    h: 1334,
     alt: "Vodka-ade variety packs on a cooler shelf",
     caption: "Vodka-ade variety packs on the shelf.",
   },
   {
     src: "/images/shelf-fall-seasonals.webp",
+    w: 1000,
+    h: 1334,
     alt: "Rack of fall seasonal beers and ciders",
     caption: "Fall seasonals roll in every year.",
   },
   {
     src: "/images/shelf-summer-12packs.webp",
+    w: 1000,
+    h: 1334,
     alt: "Twelve-packs of summer lagers and shandies stacked on a shelf",
     caption: "Twelve-packs, stacked and ready.",
   },
   {
     src: "/images/superlyte-can.webp",
+    w: 1000,
+    h: 1334,
     alt: "A hand holding a tall can of SuperLyte vodka-ade inside the store",
     caption: "A tall boy, straight out of the cooler.",
   },
@@ -115,7 +137,7 @@ export default function Products() {
           <div className="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>figure]:mb-4 [&>figure]:break-inside-avoid">
             {GALLERY.map((g) => (
               <figure key={g.src} className="border border-border bg-white p-2">
-                <img src={g.src} alt={g.alt} className="h-auto w-full" loading="lazy" />
+                <img src={g.src} alt={g.alt} width={g.w} height={g.h} className="h-auto w-full" loading="lazy" />
                 <figcaption className="px-1.5 py-2 text-xs text-muted-foreground">
                   {g.caption}
                 </figcaption>

@@ -32,11 +32,12 @@ export default function Contact() {
     setStatus("submitting");
     const firstName = form.name.trim().split(/\s+/)[0] || "";
     try {
-      await fetch("/", {
+      const res = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: encode({ "form-name": "contact", ...form }),
       });
+      if (!res.ok) throw new Error(String(res.status));
       setSubmittedName(firstName);
       setStatus("success");
       setForm({ name: "", phone: "", email: "", message: "" });
@@ -205,7 +206,11 @@ export default function Contact() {
 
                   {status === "error" && (
                     <p className="text-sm text-accent">
-                      Something went wrong. Please call us at {BUSINESS.phone}.
+                      Something went wrong. Please call us at{" "}
+                      <a href={tel} className="font-semibold underline underline-offset-2">
+                        {BUSINESS.phone}
+                      </a>
+                      .
                     </p>
                   )}
 

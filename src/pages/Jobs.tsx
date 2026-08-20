@@ -7,6 +7,11 @@ import AnimatedSection from "@/components/AnimatedSection";
 import { FloatField, SuccessCheck } from "@/components/FluidField";
 import { BUSINESS } from "@/lib/constants";
 
+const tel = `tel:${BUSINESS.phoneDigits}`;
+const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(
+  `${BUSINESS.name}, ${BUSINESS.address.street}, ${BUSINESS.address.city}, ${BUSINESS.address.state} ${BUSINESS.address.zip}`,
+)}`;
+
 const encode = (data: Record<string, string>) =>
   Object.keys(data)
     .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(data[k]))
@@ -31,11 +36,12 @@ export default function Jobs() {
     setStatus("submitting");
     const firstName = form.name.trim().split(/\s+/)[0] || "";
     try {
-      await fetch("/", {
+      const res = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: encode({ "form-name": "application", ...form, availability: avail.join(", ") }),
       });
+      if (!res.ok) throw new Error(String(res.status));
       setSubmittedName(firstName);
       setStatus("success");
       setForm({ name: "", phone: "", email: "", message: "" });
@@ -67,12 +73,19 @@ export default function Jobs() {
               Apply right here, or the old-fashioned ways still work too:
             </p>
             <ul className="mt-5 space-y-3 text-sm">
-              <li className="flex items-start gap-2.5 text-muted-foreground">
-                <MapPin size={18} className="mt-0.5 shrink-0 text-brand-deep" />
-                <span>
-                  Grab a paper application at the store: {BUSINESS.address.street},{" "}
-                  {BUSINESS.address.city}
-                </span>
+              <li>
+                <a
+                  href={mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-2.5 text-muted-foreground transition-colors hover:text-brand-deep"
+                >
+                  <MapPin size={18} className="mt-0.5 shrink-0 text-brand-deep" />
+                  <span>
+                    Grab a paper application at the store: {BUSINESS.address.street},{" "}
+                    {BUSINESS.address.city}
+                  </span>
+                </a>
               </li>
               <li>
                 <a
@@ -177,7 +190,11 @@ export default function Jobs() {
 
                   {status === "error" && (
                     <p className="text-sm text-accent">
-                      Something went wrong. Please call us at {BUSINESS.phone} or stop by.
+                      Something went wrong. Please call us at{" "}
+                      <a href={tel} className="font-semibold underline underline-offset-2">
+                        {BUSINESS.phone}
+                      </a>{" "}
+                      or stop by.
                     </p>
                   )}
 

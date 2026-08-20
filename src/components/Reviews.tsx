@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { Star } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { Star, Quote } from "lucide-react";
 import {
   BUSINESS,
   GOOGLE_RATING,
@@ -8,12 +9,12 @@ import {
 } from "@/lib/constants";
 import AnimatedSection from "./AnimatedSection";
 
-// Renders the SSR-baked reviews (SEO + first paint) and swaps in fresh data
-// from /api/reviews on mount when the Netlify function is configured. If the
-// function is unavailable, the baked reviews stay put and nobody notices.
+// Animated testimonial area (split layout Adam picked): heading + dot
+// navigation on the left, auto-rotating review cards on the right, Google
+// logo beside the live rating. Renders the SSR-baked reviews (SEO + first
+// paint) and swaps in fresh data from /api/reviews on mount. If the function
+// is unavailable, the baked reviews stay put and nobody notices.
 
-// Response shape returned by netlify/functions/reviews.mts (normalized from
-// the raw Places API into this friendlier shape).
 type ApiPayload = {
   configured?: boolean;
   found?: boolean;
@@ -63,26 +64,31 @@ function GoogleG({ className = "" }: { className?: string }) {
   );
 }
 
-function StarRow({ rating }: { rating: number }) {
+function StarRow({ rating, size = 18 }: { rating: number; size?: number }) {
   return (
-    <div className="flex items-center gap-0.5 text-accent" aria-label={`${rating} out of 5 stars`}>
+    <div className="flex items-center gap-1 text-amber-500" aria-label={`${rating} out of 5 stars`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
-          size={16}
+          size={size}
           fill={i < Math.round(rating) ? "currentColor" : "none"}
-          className={i < Math.round(rating) ? "" : "text-accent/30"}
+          className={i < Math.round(rating) ? "" : "text-amber-500/30"}
         />
       ))}
     </div>
   );
 }
 
+const ROTATE_MS = 6000;
+
 export default function Reviews() {
   const [reviews, setReviews] = useState<GoogleReview[]>(GOOGLE_REVIEWS);
   const [rating, setRating] = useState<number>(GOOGLE_RATING.value);
   const [count, setCount] = useState<number>(GOOGLE_RATING.count);
   const [mapsUri, setMapsUri] = useState<string>(BUSINESS.googleMapsUri);
+  const [active, setActive] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const paused = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -97,7 +103,10 @@ export default function Reviews() {
         if (data.mapsUri) setMapsUri(data.mapsUri);
         if (data.reviews?.length) {
           const fresh = data.reviews.map(toReview).filter(Boolean) as GoogleReview[];
-          if (fresh.length) setReviews(fresh);
+          if (fresh.length) {
+            setReviews(fresh.slice(0, 6));
+            setActive(0);
+          }
         }
       } catch {
         // Baked data stays.
@@ -108,75 +117,148 @@ export default function Reviews() {
     };
   }, []);
 
+  // Auto-rotate; parked for reduced-motion users and while hovered.
+  useEffect(() => {
+    if (reduceMotion || reviews.length <= 1) return;
+    const t = setInterval(() => {
+      if (!paused.current) setActive((a) => (a + 1) % reviews.length);
+    }, ROTATE_MS);
+    return () => clearInterval(t);
+  }, [reduceMotion, reviews.length]);
+
   return (
-    <section className="depth-ice">
+    <section className="depth-ice overflow-hidden">
       <div className="container-x py-20 md:py-28">
-        <AnimatedSection className="max-w-2xl mx-auto text-center">
-          <h2 className="display text-3xl md:text-5xl text-foreground">What neighbors say on Google</h2>
-          <span className="mt-5 block rule-ice mx-auto" />
-
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <StarRow rating={rating} />
-            <span className="text-foreground font-display text-lg">
-              {rating.toFixed(1)}
+        <div className="grid gap-14 md:grid-cols-2 lg:gap-24">
+          {/* Left: heading, rating, navigation */}
+          <AnimatedSection direction="left" className="flex flex-col justify-center">
+            <span className="plaque w-fit">
+              <span className="inline-flex items-center gap-1.5">
+                <Star size={12} className="fill-amber-500 text-amber-500" /> Google reviews
+              </span>
             </span>
-            <span className="text-muted-foreground text-sm">
-              from {count} Google reviews
-            </span>
-          </div>
-        </AnimatedSection>
+            <h2 className="display mt-5 text-3xl md:text-5xl text-foreground">
+              What neighbors say on Google
+            </h2>
+            <div className="mt-6 flex items-center gap-3">
+              <GoogleG className="size-8" />
+              <StarRow rating={rating} />
+              <span className="font-display text-xl text-foreground">{rating.toFixed(1)}</span>
+              <span className="text-sm text-muted-foreground">from {count} reviews</span>
+            </div>
+            <p className="mt-5 max-w-md leading-relaxed text-muted-foreground">
+              Fast and friendly come up again and again. Here they are in our
+              neighbors' own words.
+            </p>
 
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5">
-          {reviews.map((r, i) => (
-            <AnimatedSection key={`${r.author}-${r.publishTime || i}`} delay={(i % 2) * 0.06}>
-              <figure className="h-full bg-white border border-border p-6 shadow-sm flex flex-col">
-                <div className="flex items-center justify-between">
-                  <StarRow rating={r.rating} />
-                  <GoogleG className="size-4" />
-                </div>
-                <blockquote className="mt-4 text-foreground leading-relaxed text-sm flex-1">
-                  {r.text}
-                </blockquote>
-                <figcaption className="mt-5 flex items-center gap-3 pt-4 border-t border-border/70">
-                  <span
-                    aria-hidden="true"
-                    className="flex items-center justify-center size-9 bg-brand text-white font-display text-sm tracking-wider"
-                  >
-                    {initials(r.author)}
-                  </span>
-                  <div className="text-left">
-                    <span className="block font-display uppercase tracking-wide text-foreground text-sm">
-                      {r.author}
-                    </span>
-                    {r.timeAgo && (
-                      <span className="block text-xs text-muted-foreground">{r.timeAgo}</span>
-                    )}
-                  </div>
-                </figcaption>
-              </figure>
-            </AnimatedSection>
-          ))}
-        </div>
+            {/* Dot navigation */}
+            <div className="mt-7 flex items-center gap-3">
+              {reviews.map((r, index) => (
+                <button
+                  key={`${r.author}-${index}`}
+                  onClick={() => setActive(index)}
+                  className={`h-2.5 transition-all duration-300 ${
+                    active === index ? "w-10 bg-brand" : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                  }`}
+                  aria-label={`View review ${index + 1}`}
+                  aria-pressed={active === index}
+                />
+              ))}
+            </div>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 text-sm">
-          <a
-            href={mapsUri}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-brand-deep font-semibold uppercase tracking-wide hover:text-accent transition-colors"
+            <div className="mt-8 flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:gap-4">
+              <a
+                href={mapsUri}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 font-semibold uppercase tracking-wide text-brand-deep transition-colors hover:text-accent"
+              >
+                <GoogleG className="size-4" />
+                Read all reviews on Google
+              </a>
+              <a
+                href={`https://search.google.com/local/writereview?placeid=${BUSINESS.googlePlaceId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground transition-colors hover:text-brand-deep"
+              >
+                Been through the lane? Leave a review
+              </a>
+            </div>
+          </AnimatedSection>
+
+          {/* Right: rotating review cards */}
+          <AnimatedSection
+            direction="right"
+            className="relative min-h-[340px] md:min-h-[400px]"
           >
-            <GoogleG className="size-4" />
-            Read all reviews on Google
-          </a>
-          <span className="hidden sm:inline text-muted-foreground/60">·</span>
-          <a
-            href="https://search.google.com/local/writereview?placeid=ChIJrxEv0lfMMIgRtWOnSWlwmzQ"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-brand-deep transition-colors"
-          >
-            Been through the lane? Leave a review
-          </a>
+            <div
+              className="absolute inset-0"
+              onMouseEnter={() => {
+                paused.current = true;
+              }}
+              onMouseLeave={() => {
+                paused.current = false;
+              }}
+            >
+              {reviews.map((r, index) => (
+                <motion.div
+                  key={`${r.author}-${r.publishTime || index}`}
+                  className="absolute inset-0"
+                  initial={false}
+                  animate={
+                    reduceMotion
+                      ? { opacity: active === index ? 1 : 0 }
+                      : {
+                          opacity: active === index ? 1 : 0,
+                          x: active === index ? 0 : 80,
+                          scale: active === index ? 1 : 0.94,
+                        }
+                  }
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  style={{ zIndex: active === index ? 10 : 0, pointerEvents: active === index ? "auto" : "none" }}
+                  aria-hidden={active !== index}
+                >
+                  <figure className="flex h-full flex-col border border-border bg-white p-8 shadow-[0_24px_60px_-30px_rgba(16,40,80,0.4)]">
+                    <div className="flex items-center justify-between">
+                      <StarRow rating={r.rating} size={20} />
+                      <GoogleG className="size-5" />
+                    </div>
+
+                    <div className="relative mt-6 flex-1 overflow-y-auto">
+                      <Quote className="absolute -left-2 -top-2 h-8 w-8 rotate-180 text-brand/15" aria-hidden />
+                      <blockquote className="relative z-10 text-lg font-medium leading-relaxed text-foreground">
+                        "{r.text}"
+                      </blockquote>
+                    </div>
+
+                    <div className="my-4 h-px w-full shrink-0 bg-border" aria-hidden />
+
+                    <figcaption className="flex items-center gap-4">
+                      <span
+                        aria-hidden
+                        className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-brand text-white font-display tracking-wider"
+                      >
+                        {initials(r.author)}
+                      </span>
+                      <div>
+                        <span className="block font-display uppercase tracking-wide text-foreground">
+                          {r.author}
+                        </span>
+                        <span className="block text-sm text-muted-foreground">
+                          Google review{r.timeAgo ? ` · ${r.timeAgo}` : ""}
+                        </span>
+                      </div>
+                    </figcaption>
+                  </figure>
+                </motion.div>
+              ))}
+
+              {/* Decorative corner blocks */}
+              <div className="absolute -bottom-6 -left-6 -z-10 h-24 w-24 bg-brand/5" aria-hidden />
+              <div className="absolute -right-6 -top-6 -z-10 h-24 w-24 bg-brand/5" aria-hidden />
+            </div>
+          </AnimatedSection>
         </div>
       </div>
     </section>

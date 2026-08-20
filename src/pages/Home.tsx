@@ -130,6 +130,8 @@ export default function Home() {
               <img
                 src={IMAGES.building}
                 alt="The Bear Cave drive-thru lane running through the light blue building at 474 College St"
+                width={1920}
+                height={1440}
                 className="h-auto w-full"
                 loading="lazy"
               />
@@ -210,6 +212,8 @@ export default function Home() {
               <img
                 src={IMAGES.buildingWide}
                 alt="Bear Cave Drive Thru from College Street, with the beverage catering sign out front"
+                width={1920}
+                height={1440}
                 className="h-auto w-full"
                 loading="lazy"
               />
@@ -223,7 +227,7 @@ export default function Home() {
             <p className="mt-6 leading-relaxed text-muted-foreground">
               Pull in once and your drink run becomes the easiest errand of the week: cold
               drinks in the seat next to you, about a minute after you turned in. Or keep
-              circling the grocery lot and standing in line for a six-pack. Your call.
+              circling the grocery lot for the same six-pack. Your call.
             </p>
             <p className="mt-4 leading-relaxed text-muted-foreground">
               If you're tired of standing in line for a six-pack, pulling into Bear Cave

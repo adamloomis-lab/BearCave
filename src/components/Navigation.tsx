@@ -95,6 +95,8 @@ export default function Navigation() {
               <img
                 src={IMAGES.logo}
                 alt=""
+                width={1248}
+                height={1248}
                 className={`w-auto transition-all duration-300 ${scrolled ? "h-9" : "h-11"}`}
               />
               <span className="display text-xl text-foreground tracking-wide">Bear Cave</span>
@@ -168,7 +170,7 @@ export default function Navigation() {
               {/* Header: wordmark + close */}
               <div className="flex items-center justify-between px-6 pt-6">
                 <span className="flex items-center gap-2.5">
-                  <img src={IMAGES.logo} alt="" className="h-10 w-auto" />
+                  <img src={IMAGES.logo} alt="" width={1248} height={1248} className="h-10 w-auto" />
                   <span className="display text-lg text-white tracking-wide">Bear Cave</span>
                 </span>
                 <button

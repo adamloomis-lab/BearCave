@@ -37,11 +37,12 @@ export default function Catering() {
     setStatus("submitting");
     const firstName = form.name.trim().split(/\s+/)[0] || "";
     try {
-      await fetch("/", {
+      const res = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: encode({ "form-name": "catering", ...form }),
       });
+      if (!res.ok) throw new Error(String(res.status));
       setSubmittedName(firstName);
       setStatus("success");
       setForm({ name: "", phone: "", email: "", occasion: "", date: "", headcount: "", message: "" });
@@ -82,6 +83,8 @@ export default function Catering() {
               <img
                 src={IMAGES.mascot}
                 alt="The Bear Cave polar bear mascot holding a bottle outside a snowy cave"
+                width={1200}
+                height={1200}
                 className="h-auto w-full"
                 loading="lazy"
               />
@@ -189,7 +192,11 @@ export default function Catering() {
 
                   {status === "error" && (
                     <p className="text-sm text-accent">
-                      Something went wrong. Please call us at {BUSINESS.phone}.
+                      Something went wrong. Please call us at{" "}
+                      <a href={tel} className="font-semibold underline underline-offset-2">
+                        {BUSINESS.phone}
+                      </a>
+                      .
                     </p>
                   )}
 

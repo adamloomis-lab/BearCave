@@ -51,6 +51,19 @@ export default function Privacy() {
         contact page is provided by Google Maps, which may set its own cookies when loaded.
         Reviews shown on this site come from our public Google Business Profile.
       </p>
+      <p>
+        With your consent, we use Microsoft Clarity to understand how visitors use this
+        site through session replays and heatmaps. Clarity loads only after you choose
+        "Got It" in the cookie banner. You can read how Microsoft handles this data in the{" "}
+        <a
+          href="https://privacy.microsoft.com/privacystatement"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Microsoft Privacy Statement
+        </a>
+        .
+      </p>
 
       <h2>Data Retention</h2>
       <p>

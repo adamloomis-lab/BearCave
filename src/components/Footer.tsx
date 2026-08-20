@@ -23,7 +23,7 @@ export default function Footer() {
         {/* Wordmark row */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between border-b border-white/10 pb-8">
           <div className="flex items-center gap-3">
-            <img src={IMAGES.logo} alt="" className="h-14 w-auto" />
+            <img src={IMAGES.logo} alt="" width={1248} height={1248} loading="lazy" className="h-14 w-auto" />
             <div>
               <p className="display text-3xl text-white">Bear Cave</p>
               <p className="text-sm text-white/60">{BUSINESS.tagline}</p>

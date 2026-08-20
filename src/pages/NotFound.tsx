@@ -8,7 +8,7 @@ export default function NotFound() {
     <Layout>
       <section className="hero-frost">
         <div className="container-x flex min-h-[55vh] flex-col items-center justify-center py-20 text-center">
-          <img src={IMAGES.logo} alt="" className="h-24 w-auto" />
+          <img src={IMAGES.logo} alt="" width={1248} height={1248} className="h-24 w-auto" />
           <h1 className="display mt-6 text-6xl text-foreground md:text-7xl">Wrong turn</h1>
           <p className="mt-4 max-w-md leading-relaxed text-muted-foreground">
             This page isn't in the cave. The lane back to the homepage is right here.
