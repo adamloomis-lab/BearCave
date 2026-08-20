@@ -24,12 +24,12 @@ export default function Snow() {
 
     const spawn = (yRandom: boolean): Flake => ({
       x: Math.random() * w,
-      y: yRandom ? Math.random() * h : -6,
-      r: 1 + Math.random() * 2.4,
-      vy: 0.35 + Math.random() * 0.75,
-      vx: -0.15 + Math.random() * 0.3,
+      y: yRandom ? Math.random() * h : -8,
+      r: 1 + Math.random() * 3,
+      vy: 0.5 + Math.random() * 1.1,
+      vx: -0.2 + Math.random() * 0.4,
       phase: Math.random() * Math.PI * 2,
-      o: 0.35 + Math.random() * 0.45,
+      o: 0.35 + Math.random() * 0.5,
     });
 
     const size = () => {
@@ -40,7 +40,7 @@ export default function Snow() {
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.round(Math.min(90, Math.max(30, w / 16)));
+      const count = Math.round(Math.min(260, Math.max(80, w / 6)));
       flakes = Array.from({ length: count }, () => spawn(true));
     };
 

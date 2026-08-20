@@ -112,7 +112,7 @@ export default function Reviews() {
     <section className="depth-ice">
       <div className="container-x py-20 md:py-28">
         <AnimatedSection className="max-w-2xl mx-auto text-center">
-          <h2 className="display text-3xl md:text-5xl text-foreground">The Neighbors Have Spoken</h2>
+          <h2 className="display text-3xl md:text-5xl text-foreground">What neighbors say on Google</h2>
           <span className="mt-5 block rule-ice mx-auto" />
 
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">

@@ -205,7 +205,7 @@ export default function Catering() {
                       </>
                     ) : (
                       <>
-                        <Send size={15} /> Start the Conversation
+                        <Send size={15} /> Request Catering
                       </>
                     )}
                   </button>

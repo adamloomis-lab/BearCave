@@ -130,8 +130,8 @@ export function getPageMeta(rawPath: string): PageMeta {
   switch (path) {
     case "/":
       return {
-        title: `${BUSINESS.name} | Wadsworth's Drive-Thru for Beer, Wine & Snacks`,
-        description: `${BUSINESS.blurb} Open seven days. Call ${BUSINESS.phone}.`,
+        title: `${BUSINESS.name} | The Coldest Beer in Town, Without Leaving Your Car`,
+        description: `Wadsworth's drive-thru beverage store. Beer, wine, seltzers, pop, snacks, candy, and lottery handed through your car window at 474 College St. In and out in about a minute. Open seven days.`,
         canonical: pageUrl("/"),
         ogImage: DEFAULT_OG,
         jsonLd: [
